@@ -7,19 +7,27 @@ $(document).ready(function (){
         var color;
 
         this.init = function() {
-            canvas = $('#canvas');
             init_color_bar();
-
-            // fit canvas to window
-            ctx = canvas.get(0).getContext('2d');
-            ctx.canvas.width  = window.innerWidth;
-            ctx.canvas.height = window.innerHeight;
+            init_canvas();
 
             // set default tool
             color = '#E00000';
             tool = new tool_pencil_point();
             swap_tool(tool);
         };
+
+        function init_canvas() {
+            canvas = $('#canvas');
+
+            // fit canvas to window
+            ctx = canvas.get(0).getContext('2d');
+            ctx.canvas.width  = window.innerWidth;
+            ctx.canvas.height = window.innerHeight;
+
+            // give canvas an img link
+            var dataURL = canvas.get(0).toDataURL();
+            $('#canvas-img').attr('src', dataURL);
+        }
 
         /* Color pallette */
         function init_color_bar() {
@@ -30,7 +38,7 @@ $(document).ready(function (){
             ctx.canvas.height = window.innerHeight / 8;
 
             /* Draw color squares onto pallette */
-            colors = ['#FF0000', '#00FF00', '#0000FF'];
+            colors = ['red', 'green', 'blue', 'yellow', 'orange', 'brown'];
             $(colors).each(function(index) {
                 ctx.fillStyle = colors[index];
                 ctx.fillRect(index * 100 + (index * 15), 0, ctx.canvas.height, ctx.canvas.height);
