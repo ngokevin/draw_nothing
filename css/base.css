@@ -11,7 +11,20 @@ canvas#color-bar {
 }
 
 .brush {
+    position: absolute;
     margin-right: -12px;
+}
+.brush-smaller {
+    position: absolute;
+    margin-right: -12px;
+    margin-left: 24px;
+    color: red;
+}
+.brush-larger {
+    position: absolute;
+    margin-right: -12px;
+    margin-left: 48px;
+    color: green;
 }
 
 #footer {
