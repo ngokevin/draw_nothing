@@ -13,6 +13,7 @@ $(document).ready(function (){
         this.init = function() {
             initColorBar();
             initCanvas();
+            initBrushSizer();
             initImgLoader();
 
             // set default tool
@@ -81,6 +82,21 @@ $(document).ready(function (){
             });
         };
 
+        /* Buttons to decrease/increase brush size */
+        function initBrushSizer() {
+            brushSize = 5;
+
+            $('#brush-smaller').click(function() {
+                if (brushSize - 10 > 0) {
+                    brushSize -= 10;
+                }
+            });
+            $('#brush-larger').click(function() {
+                brushSize += 10;
+            });
+        }
+
+        /* Button to draw an image to the canvas from url */
         function initImgLoader() {
             $('#url-loader').click(function() {
                 var url = prompt('Background Loader: enter image URL');
@@ -105,7 +121,7 @@ $(document).ready(function (){
             this.mousedown = function(e) {
                 tool.started = true;
                 ctx.fillStyle = color;
-                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, 5, 5);
+                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
             };
 
             this.mouseup = function(e) {
@@ -115,7 +131,7 @@ $(document).ready(function (){
             this.mousemove = function(e) {
                 if (tool.started) {
                     ctx.fillStyle = color;
-                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, 5, 5);
+                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
                 }
             };
         }

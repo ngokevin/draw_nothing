@@ -10,17 +10,17 @@ canvas#color-bar {
     background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
 }
 
-.brush {
+#brush-icon {
     position: absolute;
     margin-right: -12px;
 }
-.brush-smaller {
+#brush-smaller {
     position: absolute;
     margin-right: -12px;
     margin-left: 24px;
     color: red;
 }
-.brush-larger {
+#brush-larger {
     position: absolute;
     margin-right: -12px;
     margin-left: 48px;
