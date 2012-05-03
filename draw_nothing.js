@@ -21,9 +21,19 @@ $(document).ready(function (){
         function init_canvas() {
             canvas = $('#canvas');
 
-            // fit canvas to window
+            // fit canvas to window with 960px at max
             ctx = canvas.get(0).getContext('2d');
-            ctx.canvas.width  = $(window).width();
+            if ($(window).width() <= 960) {
+                ctx.canvas.width = $(window).width();
+            }
+            else {
+                var padding = ($(window).width() - 960) / 2;
+                ctx.canvas.width = '960';
+                canvas.css('margin-top', '-3px');
+                canvas.css('margin-left', padding + 'px');
+                canvas.css('margin-right', padding + 'px');
+                canvas.css('background', 'rgb(250,250,250)');
+            }
             ctx.canvas.height = $(window).height() - $(window).height() / 8 - 50;
 
             // give canvas an img link
