@@ -1,3 +1,11 @@
+canvas#color-bar {
+    background-image: -moz-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
+    background-image: -webkit-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
+    background-image: -ms-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
+    background-image: -o-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
+    background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
+}
+
 #footer {
     background-image: -moz-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
     background-image: -webkit-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));

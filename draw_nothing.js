@@ -1,5 +1,7 @@
 $(document).ready(function (){
 
+    var imgur_key = 'c45423f0d9371cb1b21139ec67c36c79';
+
     function draw_nothing() {
         var canvas;
         var ctx;
@@ -21,8 +23,8 @@ $(document).ready(function (){
 
             // fit canvas to window
             ctx = canvas.get(0).getContext('2d');
-            ctx.canvas.width  = window.innerWidth;
-            ctx.canvas.height = window.innerHeight;
+            ctx.canvas.width  = $(window).width();
+            ctx.canvas.height = $(window).height() - $(window).height() / 8 - 50;
 
             // give canvas an img link
             var dataURL = canvas.get(0).toDataURL();
@@ -34,16 +36,21 @@ $(document).ready(function (){
             color_bar = $('#color-bar');
 
             ctx = color_bar.get(0).getContext('2d');
-            ctx.canvas.width  = window.innerWidth;
-            ctx.canvas.height = window.innerHeight / 8;
+            ctx.canvas.width  = $(window).width()
+            ctx.canvas.height = $(window).height() / 8;
 
-            /* Draw color squares onto pallette */
+            // draw color squares onto pallette
             colors = ['red', 'green', 'blue', 'yellow', 'orange', 'brown'];
+
+            // evenly space out colors
+            var padding = ($(window).width() - colors.length * ctx.canvas.height) / colors.length;
+
             $(colors).each(function(index) {
                 ctx.fillStyle = colors[index];
-                ctx.fillRect(index * 100 + (index * 15), 0, ctx.canvas.height, ctx.canvas.height);
+                ctx.fillRect(index * ctx.canvas.height + (index * padding) + padding / 2, 0, ctx.canvas.height, ctx.canvas.height);
             });
 
+            // set color on click
             color_bar.mousedown(function(e) {
                 var x = e.pageX - this.offsetLeft;
                 var y = e.pageY - this.offsetTop;
