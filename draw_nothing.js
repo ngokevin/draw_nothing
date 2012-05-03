@@ -13,6 +13,7 @@ $(document).ready(function (){
         this.init = function() {
             initColorBar();
             initCanvas();
+            initImgLoader();
 
             // set default tool
             color = '#E00000';
@@ -77,6 +78,17 @@ $(document).ready(function (){
                     return ((r << 16) | (g << 8) | b).toString(16);
                 };
 
+            });
+        };
+
+        function initImgLoader() {
+            $('#url-loader').click(function() {
+                var url = prompt('Background Loader: enter image URL');
+                img = Image();
+                img.src = url;
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
+                }
             });
         };
 

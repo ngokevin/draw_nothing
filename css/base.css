@@ -10,7 +10,6 @@ canvas#color-bar {
     background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
 }
 
-
 .brush {
     margin-right: -12px;
 }
