@@ -88,11 +88,11 @@ $(document).ready(function (){
 
             $('#brush-smaller').click(function() {
                 if (brushSize - 10 > 0) {
-                    brushSize -= 10;
+                    brushSize -= 5;
                 }
             });
             $('#brush-larger').click(function() {
-                brushSize += 10;
+                brushSize += 5;
             });
         }
 
