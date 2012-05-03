@@ -10,6 +10,11 @@ canvas#color-bar {
     background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
 }
 
+
+.brush {
+    margin-right: -12px;
+}
+
 #footer {
     background-image: -moz-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
     background-image: -webkit-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
@@ -22,7 +27,8 @@ canvas#color-bar {
 
 }
 #footer-container {
-    padding-top: 10px;
+    position: relative;
+    padding-top: 15px;
     margin-left: auto;
     margin-right: auto;
     max-width: 960px;
