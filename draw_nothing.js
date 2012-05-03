@@ -112,6 +112,9 @@ $(document).ready(function (){
             canvas.mousedown(tool.mousedown);
             canvas.mouseup(tool.mouseup);
             canvas.mousemove(tool.mousemove);
+            canvas.touchdown(tool.mousedown);
+            canvas.touchend(tool.mouseup);
+            canvas.touchmove(tool.mousemove);
         };
 
         function toolPencilPoint() {
