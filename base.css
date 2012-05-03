@@ -17,7 +17,7 @@ canvas#color-bar {
     background-image: -o-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
     background-image: linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
 
-    margin-top: -5px;
+    padding-top: 10px;
     text-align: center;
     color: rgb(200,200,200);
 }

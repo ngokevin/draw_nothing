@@ -5,20 +5,22 @@ $(document).ready(function (){
     function draw_nothing() {
         var canvas;
         var ctx;
+
         var tool;
         var color;
+        var brushSize;
 
         this.init = function() {
-            init_color_bar();
-            init_canvas();
+            initColorBar();
+            initCanvas();
 
             // set default tool
             color = '#E00000';
-            tool = new tool_pencil_point();
+            tool = new toolPencilPoint();
             swap_tool(tool);
         };
 
-        function init_canvas() {
+        function initCanvas() {
             canvas = $('#canvas');
 
             // fit canvas to window with 960px at max
@@ -42,7 +44,7 @@ $(document).ready(function (){
         }
 
         /* Color pallette */
-        function init_color_bar() {
+        function initColorBar() {
             color_bar = $('#color-bar');
 
             ctx = color_bar.get(0).getContext('2d');
@@ -84,7 +86,7 @@ $(document).ready(function (){
             canvas.mousemove(tool.mousemove);
         };
 
-        function tool_pencil_point() {
+        function toolPencilPoint() {
             var tool = this;
             this.started = false;
 
