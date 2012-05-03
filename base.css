@@ -1,0 +1,11 @@
+#footer {
+    background-image: -moz-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -webkit-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -ms-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -o-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+
+    margin-top: -5px;
+    text-align: center;
+    color: rgb(200,200,200);
+}
