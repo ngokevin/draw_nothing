@@ -112,9 +112,9 @@ $(document).ready(function (){
             canvas.mousedown(tool.mousedown);
             canvas.mouseup(tool.mouseup);
             canvas.mousemove(tool.mousemove);
-            canvas.addEventListener('touchstart', tool.mousedown);
-            canvas.addEventListener('touchend', tool.mouseup);
-            canvas.addEventListener('touchmove', tool.mousemove);
+            canvas.get(0).ontouchstart = tool.touchstart
+            canvas.get(0).ontouchstop = tool.touchstop;
+            canvas.get(0).ontouchmove = tool.touchmove;
         };
 
         function toolPencilPoint() {
@@ -122,6 +122,7 @@ $(document).ready(function (){
             this.started = false;
 
             this.mousedown = function(e) {
+                e.preventDefault();
                 tool.started = true;
                 ctx.fillStyle = color;
                 ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
@@ -132,11 +133,41 @@ $(document).ready(function (){
             };
 
             this.mousemove = function(e) {
+                e.preventDefault();
                 if (tool.started) {
                     ctx.fillStyle = color;
                     ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
                 }
             };
+
+            this.touchstart = function(e) {
+                for (var i = 1; i <= e.touches.length; i++) {
+                    var p = getCoords(e.touches[i - 1], this);
+                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
+                }
+            };
+            this.touchstop = function(e) {
+                e.preventDefault();
+            };
+            this.touchmove = function(e) {
+                for (var i=1; i<=e.touches.length; i++) {
+                    var p = getCoords(e.touches[i - 1], this);
+                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
+                }
+            };
+       }
+
+        // Get the coordinates for a mouse or touch event
+        function getCoords(e, canvas) {
+            if (e.offsetX) {
+                return { x: e.offsetX, y: e.offsetY };
+            }
+            else if (e.layerX) {
+                return { x: e.layerX, y: e.layerY };
+                }
+            else {
+                return { x: e.pageX, y: e.pageY };
+            }
         }
 
     }
