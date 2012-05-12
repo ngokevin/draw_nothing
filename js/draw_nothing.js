@@ -2,6 +2,11 @@ $(document).ready(function (){
 
     var imgur_key = 'c45423f0d9371cb1b21139ec67c36c79';
 
+    // prevent scrolling on touch devices
+    document.body.addEventListener('touchmove', function(e) {
+        event.preventDefault();
+    }, false);
+
     function draw_nothing() {
         var canvas;
         var ctx;
@@ -141,6 +146,7 @@ $(document).ready(function (){
             };
 
             this.touchstart = function(e) {
+                ctx.fillStyle = color;
                 for (var i = 1; i <= e.touches.length; i++) {
                     var p = getCoords(e.touches[i - 1], this);
                     ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
@@ -150,6 +156,7 @@ $(document).ready(function (){
                 e.preventDefault();
             };
             this.touchmove = function(e) {
+                ctx.fillStyle = color;
                 for (var i=1; i<=e.touches.length; i++) {
                     var p = getCoords(e.touches[i - 1], this);
                     ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
