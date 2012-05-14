@@ -117,9 +117,8 @@ $(document).ready(function (){
             canvas.mousedown(tool.mousedown);
             canvas.mouseup(tool.mouseup);
             canvas.mousemove(tool.mousemove);
-            canvas.get(0).ontouchstart = tool.touchstart
-            canvas.get(0).ontouchstop = tool.touchstop;
-            canvas.get(0).ontouchmove = tool.touchmove;
+            canvas.get(0).ontouchstart = tool.touch;
+            canvas.get(0).ontouchmove = tool.touch;
         };
 
         function toolPencilPoint() {
@@ -145,19 +144,9 @@ $(document).ready(function (){
                 }
             };
 
-            this.touchstart = function(e) {
+            this.touch = function(e) {
                 ctx.fillStyle = color;
                 for (var i = 1; i <= e.touches.length; i++) {
-                    var p = getCoords(e.touches[i - 1], this);
-                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
-                }
-            };
-            this.touchstop = function(e) {
-                e.preventDefault();
-            };
-            this.touchmove = function(e) {
-                ctx.fillStyle = color;
-                for (var i=1; i<=e.touches.length; i++) {
                     var p = getCoords(e.touches[i - 1], this);
                     ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
                 }
