@@ -2,7 +2,7 @@
   "version": "1.0",
   "name": "Draw Nothing",
   "description": "Less-than-basic doodle application that allows you to draw almost nothing!",
-  "launch_path": "/~ngoke/draw_nothing/"
+  "launch_path": "/~ngoke/draw_nothing/",
   "icons": {
     "16": "http://ngokevin.com/~ngoke/draw_nothing/img/icon-16.png",
     "48": "http://ngokevin.com/~ngoke/draw_nothing/img/icon-48.png",
