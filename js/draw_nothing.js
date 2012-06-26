@@ -2,11 +2,6 @@ $(document).ready(function (){
 
     var imgur_key = 'c45423f0d9371cb1b21139ec67c36c79';
 
-    // prevent scrolling on touch devices
-    document.body.addEventListener('touchmove', function(e) {
-        event.preventDefault();
-    }, false);
-
     function draw_nothing() {
         var canvas;
         var ctx;
@@ -16,10 +11,19 @@ $(document).ready(function (){
         var brushSize;
 
         this.init = function() {
+            // prevent scrolling on touch devices
+            document.body.addEventListener('touchmove', function(e) {
+            }, false);
+
             initColorBar();
             initCanvas();
+            resizeCanvas();
             initBrushSizer();
             initImgLoader();
+
+            document.body.addEventListener('onresize', function(e) {
+                resizeCanvas();
+            }, false);
 
             // set default tool
             color = '#E00000';
@@ -32,31 +36,64 @@ $(document).ready(function (){
 
             // fit canvas to window with 960px at max
             ctx = canvas.get(0).getContext('2d');
-            if ($(window).width() <= 960) {
-                ctx.canvas.width = $(window).width();
-            }
-            else {
-                var padding = ($(window).width() - 960) / 2;
-                ctx.canvas.width = '960';
-                canvas.css('margin-top', '-3px');
-                canvas.css('margin-left', padding + 'px');
-                canvas.css('margin-right', padding + 'px');
-                canvas.css('background', 'rgb(250,250,250)');
-            }
-            ctx.canvas.height = $(window).height() - $(window).height() / 8 - 50;
 
             // give canvas an img link
             var dataURL = canvas.get(0).toDataURL();
             $('#canvas-img').attr('src', dataURL);
         }
 
+        function resizeCanvas() {
+            var main = $('#main');
+
+            var widthToHeight = 4 / 3;
+            var newWidth = $(window).width();
+            var newHeight = $(window).height();
+            var newWidthToHeight = newWidth / newHeight;
+
+            if (newWidthToHeight > widthToHeight) {
+                // window too wide, widen main area
+                newWidth = newHeight * widthToHeight;
+                main.css('height', newHeight + 'px');
+                main.css('width', newWidth + 'px');
+            }
+            else {
+                // window too high, stretch main area
+                newHeight = newWidth / widthToHeight;
+                main.css('height', newHeight + 'px');
+                main.css('width', newWidth + 'px');
+            }
+
+            // adjust for header/footer bars
+            var newCanvasHeight = parseInt(main.css('height')) * .85;
+            main.css('height', newCanvasHeight + 'px');
+
+            // recenter
+            main.css('marginTop', - newHeight / 2 + (newHeight * .1) + 'px');
+            main.css('marginLeft', - newWidth / 2 + 'px');
+
+            // adjust font size
+            main.css('fontSize', newWidth / 400 + 'em');
+
+            // resize color bar
+            color_bar = $('#color-bar');
+            var color_ctx = color_bar.get(0).getContext('2d');
+            ctx.canvas.width  = $(window).width()
+            ctx.canvas.height = $(window).height() * .10 ;
+
+            // resize canvas
+            var canvas = $('#canvas');
+            canvas.attr('width', newWidth);
+            canvas.attr('height', newHeight);
+        }
+
         /* Color pallette */
         function initColorBar() {
-            color_bar = $('#color-bar');
 
-            ctx = color_bar.get(0).getContext('2d');
+            // size color bar
+            color_bar = $('#color-bar');
+            var ctx = color_bar.get(0).getContext('2d');
             ctx.canvas.width  = $(window).width()
-            ctx.canvas.height = $(window).height() / 8;
+            ctx.canvas.height = $(window).height() * .10 ;
 
             // draw color squares onto pallette
             colors = ['red', 'green', 'blue', 'yellow', 'orange', 'brown'];
@@ -145,6 +182,8 @@ $(document).ready(function (){
             };
 
             this.touch = function(e) {
+                e.preventDefault();
+
                 ctx.fillStyle = color;
                 for (var i = 1; i <= e.touches.length; i++) {
                     var p = getCoords(e.touches[i - 1], this);
