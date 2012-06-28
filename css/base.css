@@ -11,6 +11,37 @@ canvas#color-bar {
     background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
 }
 
+#left-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+
+    background: rgb(30, 30, 30);
+    background-image: -moz-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -webkit-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -ms-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -o-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+}
+#right-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+
+    background: rgb(30, 30, 30);
+    background-image: -moz-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -webkit-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -ms-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: -o-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+    background-image: linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
+}
+
+.color-picker {
+    margin-top: 25px;
+}
+
 #brush-icon {
     position: absolute;
     margin-right: -12px;

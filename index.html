@@ -6,9 +6,11 @@
         <link rel='stylesheet' type='text/css' href='css/sticky_footer.css' />
         <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
         <link rel='stylesheet' type="text/css" href="css/jquery-ui-1.8.20.custom.css" />
+        <link rel='stylesheet' type="text/css" href="css/color-picker.css" />
 
         <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="js/colorpicker.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     </head>
@@ -17,9 +19,22 @@
 
         <div id='wrap'>
             <div id='main'>
-                <canvas style='z-index:0' id='color-bar'></canvas>
+                <div id="left-panel">
+                    <div class="cp-default color-picker">
+                        <div class="picker-wrapper">
+                            <div id="picker" class="picker"></div>
+                                <div class="picker-indicator"></div>
+                            </div>
+                            <div class="slide-wrapper">
+                                <div id="slide" class="slide"></div>
+                                <div class="slide-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <canvas style='z-index:-1' id='canvas'></canvas>
                 <img width=0 height=0 id='canvas-img'></img>
+                <div id="right-panel"></div>
             </div>
         </div>
 

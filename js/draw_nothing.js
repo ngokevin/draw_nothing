@@ -1,6 +1,7 @@
 $(document).ready(function (){
 
-    var imgur_key = 'c45423f0d9371cb1b21139ec67c36c79';
+    var minDesktop = 800;
+    var minMobile= 320;
 
     // prevent scrolling on touch devices
     document.body.addEventListener('touchmove', function(e) {
@@ -11,13 +12,17 @@ $(document).ready(function (){
         var canvas;
         var ctx;
 
+        var windowWidth = $(window).width();
+        var windowHeight= $(window).height();
+
         var tool;
         var color;
         var brushSize;
 
         this.init = function() {
-            initColorBar();
             initCanvas();
+            initLeftPanel();
+            initRightPanel();
             initBrushSizer();
             initImgLoader();
 
@@ -27,30 +32,70 @@ $(document).ready(function (){
             swap_tool(tool);
         };
 
-        function initCanvas() {
-            canvas = $('#canvas');
 
-            // fit canvas to window with 960px at max
+        function initCanvas() {
+            var aspect = 4 / 3;
+            var canvasPaddingAspect = 3 / 1;
+
+            canvas = $('#canvas');
             ctx = canvas.get(0).getContext('2d');
-            if ($(window).width() <= 960) {
-                ctx.canvas.width = $(window).width();
+
+            // If mobile, fit canvas width to screen.
+            if (windowWidth <= minDesktop) {
+                ctx.canvas.width = windowWidth
             }
+            // If desktop, fit canvas according to canvasPaddingAspect.
             else {
-                var padding = ($(window).width() - 960) / 2;
-                ctx.canvas.width = '960';
-                canvas.css('margin-top', '-3px');
+                // 2 * padding + canvas = width; aspect = canvas / padding.
+                ctx.canvas.width = windowWidth / (2 / canvasPaddingAspect + 1);
+                var padding = (windowWidth - ctx.canvas.width) / 2;
                 canvas.css('margin-left', padding + 'px');
                 canvas.css('margin-right', padding + 'px');
                 canvas.css('background', 'rgb(250,250,250)');
             }
-            ctx.canvas.height = $(window).height() - $(window).height() / 8 - 50;
 
-            // give canvas an img link
+            ctx.canvas.height = ctx.canvas.width / aspect;
+            var panelWidth = (windowHeight - ctx.canvas.height) / 2;
+            canvas.css('margin-top', panelWidth + 'px');
+
+            // Give canvas an img link.
             var dataURL = canvas.get(0).toDataURL();
             $('#canvas-img').attr('src', dataURL);
         }
 
-        /* Color pallette */
+
+        function initLeftPanel() {
+            var panelWidth = (windowWidth - ctx.canvas.width) / 2;
+            $('#left-panel').css('width', panelWidth + 'px');
+
+            // Color picker, sets color to selected value using callback.
+            c = ColorPicker(
+                document.getElementById('slide'),
+                document.getElementById('picker'),
+                function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                    color = hex;
+                    ColorPicker.positionIndicators(
+                        $('.slide-indicator')[0],
+                        $('.picker-indicator')[0],
+                        mouseSlide, mousePicker
+                    );
+                }
+            );
+
+            var colorPicker = $('.color-picker');
+            var pickerWidth = colorPicker.width();
+            colorPicker.css('marginLeft', (panelWidth - pickerWidth) / 2.5);
+
+
+        }
+
+
+        function initRightPanel() {
+            var padding = (windowWidth - ctx.canvas.width) / 2;
+            $('#right-panel').css('width', padding + 'px');
+        }
+
+
         function initColorBar() {
             color_bar = $('#color-bar');
 
