@@ -83,16 +83,23 @@ $(document).ready(function (){
             );
 
             var colorPicker = $('.color-picker');
-            var pickerWidth = colorPicker.width();
-            colorPicker.css('marginLeft', (panelWidth - pickerWidth) / 2.5);
-
-
+            var pickerWidth = colorPicker.outerWidth();
+            colorPicker.css('marginLeft', (panelWidth - pickerWidth) / 2);
         }
 
 
         function initRightPanel() {
-            var padding = (windowWidth - ctx.canvas.width) / 2;
-            $('#right-panel').css('width', padding + 'px');
+            var rightPanel = $('#right-panel');
+            var panelWidth = (windowWidth - ctx.canvas.width) / 2;
+            var panelHeight = rightPanel.height()
+            rightPanel.css('width', panelWidth + 'px');
+
+            // Brush picker, sets tool.
+            var brushPicker = $('#brush-picker');
+            var pickerWidth = panelWidth * .80;
+            brushPicker.css('width', pickerWidth);
+            brushPicker.css('height', panelHeight * 2 / 3);
+            brushPicker.css('marginLeft', (panelWidth - pickerWidth) / 2);
         }
 
 
