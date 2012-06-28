@@ -51,7 +51,7 @@ $(document).ready(function (){
                 var padding = (windowWidth - ctx.canvas.width) / 2;
                 canvas.css('margin-left', padding + 'px');
                 canvas.css('margin-right', padding + 'px');
-                canvas.css('background', 'rgb(250,250,250)');
+                canvas.css('background', 'rgb(255,255,255)');
             }
 
             ctx.canvas.height = ctx.canvas.width / aspect;
