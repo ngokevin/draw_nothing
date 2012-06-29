@@ -4,7 +4,6 @@ $(document).ready(function (){
 
     var minDesktop = 800;
     var minMobile= 320;
-    var DEFAULT_BRUSH_SIZE = 5;
     var FOOTER = 50;
 
     // prevent scrolling on touch devices
@@ -20,9 +19,10 @@ $(document).ready(function (){
         var windowWidth = $(window).width();
         var windowHeight= $(window).height();
 
-        var brush;
-        var color;
-        var brushSize;
+        var brush = new brushPencilPoint();
+        var r = 230, g = 0, b = 0, brushOpacity = 1;
+        var color; updateColor();
+        var brushSize = 5;
 
         this.init = function() {
             initCanvas();
@@ -30,10 +30,7 @@ $(document).ready(function (){
             initRightPanel();
             initImgLoader();
 
-            // set default brush
-            color = '#E00000';
-            brushSize = DEFAULT_BRUSH_SIZE;
-            brush = new brushPencilPoint();
+            // Set default brush.
             swap_brush(brush);
         };
 
@@ -88,7 +85,8 @@ $(document).ready(function (){
                 document.getElementById('slide'),
                 document.getElementById('picker'),
                 function(hex, hsv, rgb, mousePicker, mouseSlide) {
-                    color = hex;
+                    r = rgb['r'], g = rgb['g'], b = rgb['b'];
+                    updateColor();
                     ColorPicker.positionIndicators(
                         $('.slide-indicator')[0],
                         $('.picker-indicator')[0],
@@ -123,15 +121,32 @@ $(document).ready(function (){
             brushOptions.css('height', panelHeight / 4);
             brushOptions.css('marginLeft', (panelWidth - pickerWidth) / 2);
 
-            $('#brushSize').html(DEFAULT_BRUSH_SIZE);
+            // Brush size slider.
+            $('#brushSize').html(brushSize);
             var updateBrushSize = function(value) {
                 $('#brushSize').html(value);
                 brushSize = value;
             };
             var sizeSlider = $('#brushSizer').slider({
-                min: 1, max: 120, value: 5,
+                min: 1, max: 120, value: brushSize,
                 slide: function(event, ui) { updateBrushSize(ui.value); },
                 change: function(event, ui) { updateBrushSize(ui.value); }
+            });
+
+            // Brush opacity slider.
+            $('#brushSize').html(brushSize);
+            $('#brushOpacity').html(brushOpacity);
+            var updateBrushOpacity = function(value) {
+                $('#brushOpacity').html(value);
+                brushOpacity = value;
+            };
+            var opacitySlider = $('#brushOpacityer').slider({
+                min: 0, max: 1, value: 1, step: .01,
+                slide: function(event, ui) { updateBrushOpacity(ui.value); },
+                change: function(event, ui) { updateBrushOpacity(ui.value); },
+                stop: function(event, ui) {
+                    updateColor();
+                }
             });
         }
 
@@ -169,6 +184,13 @@ $(document).ready(function (){
             else {
                 return { x: e.pageX, y: e.pageY };
             }
+        }
+
+
+        // Takes the r, g, b, opacity variables to build an rgba.
+        function updateColor() {
+            color = ('rgba(' + parseInt(r) + ', ' + parseInt(g) + ', '
+                     + parseInt(b) + ', ' + brushOpacity + ')');
         }
 
 
