@@ -66,6 +66,28 @@ canvas#color-bar {
     text-align: center;
 }
 
+#brush-options {
+    margin-top: 25px;
+    background: rgb(230, 230, 230);
+    box-shadow: 0px 0px 40px rgb(0, 0, 0);
+    border-radius: 15px 15px 15px 15px;
+}
+.option-header {
+    position: relative;
+    font-size: .75em;
+    top: 1em;
+    margin-left: 15px;
+}
+.slider {
+    width: 70%;
+    top: 1em;
+    margin-left: 15px;
+}
+.slider-val {
+    margin-right: 15px;
+    float: right;
+}
+
 #brush-smaller {
     position: absolute;
     margin-right: -12px;
@@ -89,7 +111,6 @@ canvas#color-bar {
 
     text-align: center;
     color: rgb(200,200,200);
-
 }
 #footer-container {
     position: relative;

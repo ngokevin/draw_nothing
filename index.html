@@ -5,11 +5,11 @@
         <link rel='stylesheet' type='text/css' href='css/base.css' />
         <link rel='stylesheet' type='text/css' href='css/sticky_footer.css' />
         <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
-        <link rel='stylesheet' type="text/css" href="css/jquery-ui-1.8.20.custom.css" />
+        <link rel='stylesheet' type="text/css" href="css/jquery-ui-1.8.21.custom.css" />
         <link rel='stylesheet' type="text/css" href="css/color-picker.css" />
 
         <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
         <script type="text/javascript" src="js/colorpicker.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -19,6 +19,7 @@
 
         <div id='wrap'>
             <div id='main'>
+
                 <div id="left-panel">
                     <div class="cp-default color-picker">
                         <div class="picker-wrapper">
@@ -32,22 +33,28 @@
                         </div>
                     </div>
                 </div>
+
                 <canvas style='z-index:-1' id='canvas'></canvas>
                 <img width=0 height=0 id='canvas-img'></img>
+
                 <div id="right-panel">
                     <div id="brush-picker">
                         <div class="brush-thumb" id="pencilPoint"><p>Pencil</p></div>
                     </div>
+                    <div id="brush-options">
+                        <div class="brush-option">
+                            <p class="option-header">Brush Size</p>
+                            <div class="slider" id="brushSizer"></div>
+                            <p class="slider-val" id="brushSize"></p>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
         <div id='footer'>
             <div id='footer-container'>
-                <div style='float:left;'>
-                    <i id='brush-smaller' class='icon-minus'></i>
-                    <i id='brush-larger' class='icon-plus'></i>
-                </div>
 
                <i class="icon-pencil"></i>
                DRAW NOTHING

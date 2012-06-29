@@ -1,12 +1,17 @@
 $(document).ready(function (){
 
+    function dbg(str) { console.log(str); }
+
     var minDesktop = 800;
     var minMobile= 320;
+    var DEFAULT_BRUSH_SIZE = 5;
+    var FOOTER = 50;
 
     // prevent scrolling on touch devices
     document.body.addEventListener('touchmove', function(e) {
         event.preventDefault();
     }, false);
+
 
     function draw_nothing() {
         var canvas;
@@ -15,7 +20,7 @@ $(document).ready(function (){
         var windowWidth = $(window).width();
         var windowHeight= $(window).height();
 
-        var tool;
+        var brush;
         var color;
         var brushSize;
 
@@ -23,40 +28,50 @@ $(document).ready(function (){
             initCanvas();
             initLeftPanel();
             initRightPanel();
-            initBrushSizer();
             initImgLoader();
 
-            // set default tool
+            // set default brush
             color = '#E00000';
-            tool = new toolPencilPoint();
-            swap_tool(tool);
+            brushSize = DEFAULT_BRUSH_SIZE;
+            brush = new brushPencilPoint();
+            swap_brush(brush);
         };
 
 
         function initCanvas() {
             var aspect = 4 / 3;
             var canvasPaddingAspect = 3 / 1;
+            var canvasWidth, canvasHeight, padding;
 
             canvas = $('#canvas');
             ctx = canvas.get(0).getContext('2d');
 
             // If mobile, fit canvas width to screen.
             if (windowWidth <= minDesktop) {
-                ctx.canvas.width = windowWidth
+                canvasWidth = windowWidth
+                padding = 0;
             }
             // If desktop, fit canvas according to canvasPaddingAspect.
             else {
                 // 2 * padding + canvas = width; aspect = canvas / padding.
-                ctx.canvas.width = windowWidth / (2 / canvasPaddingAspect + 1);
-                var padding = (windowWidth - ctx.canvas.width) / 2;
-                canvas.css('margin-left', padding + 'px');
-                canvas.css('margin-right', padding + 'px');
-                canvas.css('background', 'rgb(255,255,255)');
+                canvasWidth = windowWidth / (2 / canvasPaddingAspect + 1);
+                padding = (windowWidth - canvasWidth) / 2;
+            }
+            // Readjust height if needed.
+            canvasHeight = canvasWidth / aspect;
+            if (canvasHeight > windowHeight) {
+                canvasHeight = windowHeight;
+                canvasWidth = canvasHeight * aspect;
+                padding = (windowWidth - canvasWidth) / 2;
             }
 
-            ctx.canvas.height = ctx.canvas.width / aspect;
-            var panelWidth = (windowHeight - ctx.canvas.height) / 2;
-            canvas.css('margin-top', panelWidth + 'px');
+            var paddingHeight = (windowHeight - canvasHeight - FOOTER) / 2;
+            ctx.canvas.width = canvasWidth;
+            ctx.canvas.height= canvasHeight;
+            canvas.css('margin-left', padding + 'px');
+            canvas.css('margin-right', padding + 'px');
+            canvas.css('background', 'rgb(255,255,255)');
+            canvas.css('margin-top', paddingHeight + 'px');
 
             // Give canvas an img link.
             var dataURL = canvas.get(0).toDataURL();
@@ -94,64 +109,32 @@ $(document).ready(function (){
             var panelHeight = rightPanel.height()
             rightPanel.css('width', panelWidth + 'px');
 
-            // Brush picker, sets tool.
+            // Brush selector.
             var brushPicker = $('#brush-picker');
             var pickerWidth = panelWidth * .80;
             brushPicker.css('width', pickerWidth);
             brushPicker.css('height', panelHeight * 2 / 3);
             brushPicker.css('marginLeft', (panelWidth - pickerWidth) / 2);
-        }
 
+            // Brush options widget toolbar.
+            var brushOptions = $('#brush-options');
+            var optionsWidth = panelWidth * .80;
+            brushOptions.css('width', optionsWidth);
+            brushOptions.css('height', panelHeight / 4);
+            brushOptions.css('marginLeft', (panelWidth - pickerWidth) / 2);
 
-        function initColorBar() {
-            color_bar = $('#color-bar');
-
-            ctx = color_bar.get(0).getContext('2d');
-            ctx.canvas.width  = $(window).width()
-            ctx.canvas.height = $(window).height() / 8;
-
-            // draw color squares onto pallette
-            colors = ['red', 'green', 'blue', 'yellow', 'orange', 'brown'];
-
-            // evenly space out colors
-            var padding = ($(window).width() - colors.length * ctx.canvas.height) / colors.length;
-
-            $(colors).each(function(index) {
-                ctx.fillStyle = colors[index];
-                ctx.fillRect(index * ctx.canvas.height + (index * padding) + padding / 2, 0, ctx.canvas.height, ctx.canvas.height);
-            });
-
-            // set color on click
-            color_bar.mousedown(function(e) {
-                var x = e.pageX - this.offsetLeft;
-                var y = e.pageY - this.offsetTop;
-
-                var c = this.getContext('2d');
-                var p = c.getImageData(x, y, 1, 1).data;
-                color = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
-
-                function rgbToHex(r, g, b) {
-                    if (r > 255 || g > 255 || b > 255)
-                    throw "Invalid color component";
-                    return ((r << 16) | (g << 8) | b).toString(16);
-                };
-
-            });
-        };
-
-        /* Buttons to decrease/increase brush size */
-        function initBrushSizer() {
-            brushSize = 5;
-
-            $('#brush-smaller').click(function() {
-                if (brushSize - 10 > 0) {
-                    brushSize -= 5;
-                }
-            });
-            $('#brush-larger').click(function() {
-                brushSize += 5;
+            $('#brushSize').html(DEFAULT_BRUSH_SIZE);
+            var updateBrushSize = function(value) {
+                $('#brushSize').html(value);
+                brushSize = value;
+            };
+            var sizeSlider = $('#brushSizer').slider({
+                min: 1, max: 120, value: 5,
+                slide: function(event, ui) { updateBrushSize(ui.value); },
+                change: function(event, ui) { updateBrushSize(ui.value); }
             });
         }
+
 
         /* Button to draw an image to the canvas from url */
         function initImgLoader() {
@@ -165,45 +148,15 @@ $(document).ready(function (){
             });
         };
 
-        function swap_tool(tool) {
-            canvas.mousedown(tool.mousedown);
-            canvas.mouseup(tool.mouseup);
-            canvas.mousemove(tool.mousemove);
-            canvas.get(0).ontouchstart = tool.touch;
-            canvas.get(0).ontouchmove = tool.touch;
+
+        function swap_brush(brush) {
+            canvas.mousedown(brush.mousedown);
+            canvas.mouseup(brush.mouseup);
+            canvas.mousemove(brush.mousemove);
+            canvas.get(0).ontouchstart = brush.touch;
+            canvas.get(0).ontouchmove = brush.touch;
         };
 
-        function toolPencilPoint() {
-            var tool = this;
-            this.started = false;
-
-            this.mousedown = function(e) {
-                e.preventDefault();
-                tool.started = true;
-                ctx.fillStyle = color;
-                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
-            };
-
-            this.mouseup = function(e) {
-                tool.started = false
-            };
-
-            this.mousemove = function(e) {
-                e.preventDefault();
-                if (tool.started) {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
-                }
-            };
-
-            this.touch = function(e) {
-                ctx.fillStyle = color;
-                for (var i = 1; i <= e.touches.length; i++) {
-                    var p = getCoords(e.touches[i - 1], this);
-                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
-                }
-            };
-       }
 
         // Get the coordinates for a mouse or touch event
         function getCoords(e, canvas) {
@@ -218,9 +171,41 @@ $(document).ready(function (){
             }
         }
 
+
+        function brushPencilPoint() {
+            var brush = this;
+            this.started = false;
+
+            this.mousedown = function(e) {
+                e.preventDefault();
+                brush.started = true;
+                ctx.fillStyle = color;
+                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
+            };
+
+            this.mouseup = function(e) {
+                brush.started = false
+            };
+
+            this.mousemove = function(e) {
+                e.preventDefault();
+                if (brush.started) {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
+                }
+            };
+
+            this.touch = function(e) {
+                ctx.fillStyle = color;
+                for (var i = 1; i <= e.touches.length; i++) {
+                    var p = getCoords(e.touches[i - 1], this);
+                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
+                }
+            };
+       }
     }
+
 
     draw_nothing = new draw_nothing();
     draw_nothing.init();
-
 });
