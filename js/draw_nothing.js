@@ -5,9 +5,13 @@ $(document).ready(function (){
     var windowWidth = $(window).width();
     var windowHeight= $(window).height();
 
-    var minDesktop = 800;
-    var minTablet = 320;
+    var minDesktop = 1025;
+    var minTablet = 641;
     var minMobile= 320;
+
+    var DESKTOP = windowWidth > minDesktop;
+    var TABLET = windowWidth > minTablet && !DESKTOP;
+    var MOBILE = windowWidth > minMobile && !TABLET && !DESKTOP;
 
     var FOOTER = 50;
     var PANEL_WIDTH = 280;
@@ -28,12 +32,14 @@ $(document).ready(function (){
         var brushSize = 5;
 
         this.init = function() {
+            if (DESKTOP) { dbg('desktop') };
+            if (TABLET) { dbg('tablet') };
+            if (MOBILE) { dbg('mobile') };
+
             initCanvas();
             initLeftPanel();
             initImgLoader();
-
-            // Set default brush.
-            swap_brush(brush);
+            swapBrush(brush);
         };
 
 
@@ -51,29 +57,37 @@ $(document).ready(function (){
             ctx = canvas.get(0).getContext('2d');
 
             // If mobile, fit canvas width to screen.
-            if (false) { //windowWidth <= minDesktop) {
-                canvasWidth = windowWidth
-                leftPadding = 0;
+            if (MOBILE) {
+                canvasPadding = 0;
+                canvasWidth = windowWidth;
+                canvasHeight = windowHeight;
             }
             // If desktop, fit canvas according to canvasPaddingAspect.
             else {
                 // padding + canvas = width; aspect = canvas / padding.
                 canvasWidth = windowWidth - leftPadding;
-            }
-            // Readjust canvas if height is too large.
-            canvasHeight = canvasWidth / aspect;
-            if (canvasHeight > windowHeight) {
-                canvasHeight = windowHeight;
-                canvasWidth = canvasHeight * aspect;
-                // Make up for difference in shrunken width.
-                leftPadding += (windowWidth - PANEL_WIDTH - canvasWidth) / 2;
+                // Readjust canvas if height is too large.
+                canvasHeight = canvasWidth / aspect;
+                if (canvasHeight > windowHeight) {
+                    canvasHeight = windowHeight;
+                    canvasWidth = canvasHeight * aspect;
+                    // Make up for difference in shrunken width.
+                    leftPadding += (windowWidth - PANEL_WIDTH - canvasWidth) / 2;
+                }
             }
 
             ctx.canvas.width = canvasWidth - canvasPadding;
             ctx.canvas.height= canvasHeight - canvasPadding - FOOTER;
-            canvas.css('margin-left', leftPadding + canvasPadding / 2 + 'px');
-            canvas.css('background', 'rgb(255,255,255)');
+
+            var paddingWidth = leftPadding + canvasPadding / 2;
             var paddingHeight = (windowHeight - ctx.canvas.height - FOOTER - canvasPadding / 2) / 2 + 5;
+            if (MOBILE) {
+                paddingWidth= 0;
+                paddingHeight = 0;
+            }
+
+            canvas.css('margin-left', paddingWidth + 'px');
+            canvas.css('background', 'rgb(255,255,255)');
             canvas.css('margin-top', paddingHeight + 'px');
 
             // Give canvas an img link.
@@ -84,6 +98,12 @@ $(document).ready(function (){
 
         function initLeftPanel() {
             var leftPanel = $('#left-panel');
+
+            if (MOBILE) {
+                leftPanel.hide();
+                return;
+            }
+
             leftPanel.css('width', PANEL_WIDTH + 'px');
             var panelHeight = leftPanel.height() - FOOTER
             leftPanel.css('height', panelHeight + 'px');
@@ -163,7 +183,7 @@ $(document).ready(function (){
         };
 
 
-        function swap_brush(brush) {
+        function swapBrush(brush) {
             canvas.mousedown(brush.mousedown);
             canvas.mouseup(brush.mouseup);
             canvas.mousemove(brush.mousemove);

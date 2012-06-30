@@ -1,28 +1,18 @@
+body {
+    background: rgb(190,190,190);
+    overflow: hidden;
+}
+#canvas-wrap {
+    overflow: auto;
+}
 #canvas {
     background: white;
-}
-
-#wrap {
-    background: rgb(190,190,190);
 }
 
 #left-panel {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
-
-    background: rgb(30, 30, 30);
-    background-image: -moz-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
-    background-image: -webkit-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
-    background-image: -ms-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
-    background-image: -o-linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
-    background-image: linear-gradient(top, rgb(110,110,110), rgb(145,145,145));
-}
-#right-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
     height: 100%;
 
     background: rgb(30, 30, 30);
@@ -40,7 +30,7 @@
 #brush-picker {
     margin-top: 25px;
     background: gray;
-    box-shadow: 0px 0px 40px rgb(0, 0, 0);
+    box-shadow: 0px 0px 15px rgb(0, 0, 0);
     border-radius: 15px 15px 15px 15px;
     float: left;
 }
@@ -65,7 +55,7 @@
 #brush-options {
     margin-top: 25px;
     background: rgb(230, 230, 230);
-    box-shadow: 0px 0px 40px rgb(0, 0, 0);
+    box-shadow: 0px 0px 15px rgb(0, 0, 0);
     border-radius: 15px 15px 15px 15px;
     float: left;
 }
