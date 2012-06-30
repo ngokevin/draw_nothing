@@ -141,7 +141,18 @@ body {
     border-right: 1px double rgb(10,10,10);
 }
 .footer-button:hover {
-    background: rgb(15,15,15);
+    background-image: -moz-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
+    background-image: -webkit-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
+    background-image: -ms-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
+    background-image: -o-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
+    background-image: linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
+}
+.footer-button:active {
+    background-image: -moz-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
+    background-image: -webkit-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
+    background-image: -ms-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
+    background-image: -o-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
+    background-image: linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
 }
 .footer-icon {
     font-size: 21px;

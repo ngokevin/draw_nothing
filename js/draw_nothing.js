@@ -11,7 +11,7 @@ $(document).ready(function (){
 
     var DESKTOP = windowWidth > minDesktop;
     var TABLET = windowWidth > minTablet && !DESKTOP;
-    var MOBILE = windowWidth > minMobile && !TABLET && !DESKTOP;
+    var MOBILE = (windowWidth > minMobile && !TABLET && !DESKTOP) || windowHeight < minTablet;
 
     var FOOTER = 50;
     var PANEL_WIDTH = 280;
@@ -52,7 +52,7 @@ $(document).ready(function (){
             var leftPadding = PANEL_WIDTH;
             var canvasWidth, canvasHeight, canvasPadding= 30;
 
-            if (windowWidth > windowHeight) {
+            if (windowWidth - PANEL_WIDTH > windowHeight) {
                 var aspect = 4 / 3;
             }
             else {
@@ -207,12 +207,10 @@ $(document).ready(function (){
                 if (button.selector == lastClickedButton) {
                     menu.css('visibility', 'hidden');
                     menuItems.css('visibility', 'hidden');
-                    toggled = 0;
                 } else {
                     menu.css('visibility', 'visible');
                     menuItems.css('visibility', 'hidden');
                     pickerMenu.css('visibility', 'visible');
-                    toggled = 1;
                 }
                 lastClickedButton = button.selector;
             });
