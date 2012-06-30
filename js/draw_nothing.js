@@ -37,7 +37,9 @@ $(document).ready(function (){
             if (MOBILE) { dbg('mobile') };
 
             initCanvas();
+            initMenu();
             initLeftPanel();
+            initColorPickerButton();
             initImgLoader();
             swapBrush(brush);
         };
@@ -93,6 +95,22 @@ $(document).ready(function (){
             // Give canvas an img link.
             var dataURL = canvas.get(0).toDataURL();
             $('#canvas-img').attr('src', dataURL);
+        }
+
+
+        function initMenu() {
+            var menu = $('#menu');
+            var menuWidth = menu.width();
+            menu.css('left', (windowWidth - menuWidth) / 2);
+
+            var menuHeight = menu.height();
+            menu.css('height', menuHeight - FOOTER + 'px');
+            menu.css('top', (windowHeight - menuHeight) / 2);
+
+            var colorPicker = $('#color-picker-menu')
+            initColorPicker(slide=document.getElementById('slide-menu'),
+                            picker=document.getElementById('picker-menu'));
+            colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
         }
 
 
@@ -173,6 +191,26 @@ $(document).ready(function (){
                     );
                 }
             );
+        }
+
+
+        function initColorPickerButton() {
+            var menu = $('#menu');
+            var colorPickerMenu = $('#color-picker-menu');
+            var colorButton = $('#color-picker-button');
+            var toggled = 0;
+
+            colorButton.click(function() {
+                if (toggled) {
+                    menu.css('visibility', 'hidden');
+                    colorPickerMenu.css('visibility', 'hidden');
+                    toggled = 0;
+                } else {
+                    menu.css('visibility', 'visible');
+                    colorPickerMenu.css('visibility', 'visible');
+                    toggled = 1;
+                }
+            });
         }
 
 

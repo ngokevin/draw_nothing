@@ -20,8 +20,22 @@
         <div id='wrap'>
             <div id='main'>
 
+                <div id='menu'>
+                    <div id='color-picker-menu' class='cp-default color-picker-menu menu-item'>
+                        <div class='picker-wrapper'>
+                            <div id='picker-menu' class='picker'>
+                                <div class='picker-indicator'></div>
+                            </div>
+                            <div class='slide-wrapper'>
+                                <div id='slide-menu' class='slide'></div>
+                                <div class='slide-indicator'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id='left-panel'>
-                    <div class='cp-default color-picker'>
+                    <div id='color-picker' class='cp-default'>
                         <div class='picker-wrapper'>
                             <div id='picker' class='picker'>
                                 <div class='picker-indicator'></div>
@@ -58,8 +72,8 @@
         <div id='footer'>
             <div id='footer-container'>
                 <div style='float:left;'>
-                    <span class='footer-button'>
-                        <i id='color-picker-button' class='footer-icon icon-tint'></i>
+                    <span id='color-picker-button' class='footer-button'>
+                        <i id='color-picker-icon' class='footer-icon icon-tint'></i>
                     </span>
                 </div>
 
@@ -67,7 +81,7 @@
                 DRAW NOTHING
 
                 <div style='float:right;'>
-                    <span class='footer-button'>
+                    <span id='img-loader-button' class='footer-button'>
                         <i id='url-loader' class='footer-icon icon-picture'></i>
                     </span>
                 </div>
