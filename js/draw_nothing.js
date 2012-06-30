@@ -31,6 +31,8 @@ $(document).ready(function (){
         var color; updateColor();
         var brushSize = 5;
 
+        var lastClickedButton = '';
+
         this.init = function() {
             if (DESKTOP) { dbg('desktop') };
             if (TABLET) { dbg('tablet') };
@@ -39,7 +41,8 @@ $(document).ready(function (){
             initCanvas();
             initMenu();
             initLeftPanel();
-            initColorPickerButton();
+            initMenuButton($('#color-picker-button'), $('#color-picker-menu'));
+            initMenuButton($('#brush-picker-button'), $('#brush-picker-menu'));
             initImgLoader();
             swapBrush(brush);
         };
@@ -194,22 +197,24 @@ $(document).ready(function (){
         }
 
 
-        function initColorPickerButton() {
+        function initMenuButton(button, pickerMenu) {
+            var menuItems = $('.menu-item');
             var menu = $('#menu');
-            var colorPickerMenu = $('#color-picker-menu');
-            var colorButton = $('#color-picker-button');
-            var toggled = 0;
 
-            colorButton.click(function() {
-                if (toggled) {
+            // Close menu if same button is clicked, show different menu if
+            // another button clicked.
+            button.click(function() {
+                if (button.selector == lastClickedButton) {
                     menu.css('visibility', 'hidden');
-                    colorPickerMenu.css('visibility', 'hidden');
+                    menuItems.css('visibility', 'hidden');
                     toggled = 0;
                 } else {
                     menu.css('visibility', 'visible');
-                    colorPickerMenu.css('visibility', 'visible');
+                    menuItems.css('visibility', 'hidden');
+                    pickerMenu.css('visibility', 'visible');
                     toggled = 1;
                 }
+                lastClickedButton = button.selector;
             });
         }
 

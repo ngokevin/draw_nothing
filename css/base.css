@@ -46,6 +46,12 @@ body {
     margin-top: 25px;
 }
 
+#brush-picker-menu {
+    margin-top: 25px;
+    background: gray;
+    box-shadow: 0px 0px 15px rgb(0, 0, 0);
+    border-radius: 15px 15px 15px 15px;
+}
 #brush-picker {
     margin-top: 25px;
     background: gray;
