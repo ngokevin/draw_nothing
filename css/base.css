@@ -1,5 +1,9 @@
+#canvas {
+    background: white;
+}
+
 #wrap {
-    background: rgb(240,240,240);
+    background: rgb(190,190,190);
 }
 
 #left-panel {

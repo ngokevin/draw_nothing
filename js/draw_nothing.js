@@ -4,11 +4,13 @@ $(document).ready(function (){
 
     var windowWidth = $(window).width();
     var windowHeight= $(window).height();
+
     var minDesktop = 800;
+    var minTablet = 320;
     var minMobile= 320;
+
     var FOOTER = 50;
-    var CANVAS_PADDING = 30;
-    var PANEL_WIDTH = windowWidth / 5;
+    var PANEL_WIDTH = 280;
 
     // prevent scrolling on touch devices
     document.body.addEventListener('touchmove', function(e) {
@@ -36,15 +38,20 @@ $(document).ready(function (){
 
 
         function initCanvas() {
-            var aspect = 4 / 3;
-            var leftPadding = windowWidth / 5;
-            var canvasWidth, canvasHeight, padding;
+            var leftPadding = PANEL_WIDTH;
+            var canvasWidth, canvasHeight, canvasPadding= 30;
 
+            if (windowWidth > windowHeight) {
+                var aspect = 4 / 3;
+            }
+            else {
+                var aspect = 3 / 4;
+            }
             canvas = $('#canvas');
             ctx = canvas.get(0).getContext('2d');
 
             // If mobile, fit canvas width to screen.
-            if (windowWidth <= minDesktop) {
+            if (false) { //windowWidth <= minDesktop) {
                 canvasWidth = windowWidth
                 leftPadding = 0;
             }
@@ -53,19 +60,20 @@ $(document).ready(function (){
                 // padding + canvas = width; aspect = canvas / padding.
                 canvasWidth = windowWidth - leftPadding;
             }
-            // Readjust height if needed.
+            // Readjust canvas if height is too large.
             canvasHeight = canvasWidth / aspect;
             if (canvasHeight > windowHeight) {
                 canvasHeight = windowHeight;
                 canvasWidth = canvasHeight * aspect;
-                leftPadding = windowWidth - canvasWidth;
+                // Make up for difference in shrunken width.
+                leftPadding += (windowWidth - PANEL_WIDTH - canvasWidth) / 2;
             }
 
-            ctx.canvas.width = canvasWidth - CANVAS_PADDING;
-            ctx.canvas.height= canvasHeight - CANVAS_PADDING - FOOTER;
-            canvas.css('margin-left', leftPadding + CANVAS_PADDING / 2 + 'px');
+            ctx.canvas.width = canvasWidth - canvasPadding;
+            ctx.canvas.height= canvasHeight - canvasPadding - FOOTER;
+            canvas.css('margin-left', leftPadding + canvasPadding / 2 + 'px');
             canvas.css('background', 'rgb(255,255,255)');
-            var paddingHeight = windowHeight - ctx.canvas.height - FOOTER - CANVAS_PADDING / 2 - 5;
+            var paddingHeight = (windowHeight - ctx.canvas.height - FOOTER - canvasPadding / 2) / 2 + 5;
             canvas.css('margin-top', paddingHeight + 'px');
 
             // Give canvas an img link.
@@ -94,7 +102,6 @@ $(document).ready(function (){
                     );
                 }
             );
-
             var colorPicker = $('.color-picker');
             var pickerWidth = colorPicker.outerWidth();
             colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
