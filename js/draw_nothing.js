@@ -2,9 +2,13 @@ $(document).ready(function (){
 
     function dbg(str) { console.log(str); }
 
+    var windowWidth = $(window).width();
+    var windowHeight= $(window).height();
     var minDesktop = 800;
     var minMobile= 320;
     var FOOTER = 50;
+    var CANVAS_PADDING = 30;
+    var PANEL_WIDTH = windowWidth / 5;
 
     // prevent scrolling on touch devices
     document.body.addEventListener('touchmove', function(e) {
@@ -16,9 +20,6 @@ $(document).ready(function (){
         var canvas;
         var ctx;
 
-        var windowWidth = $(window).width();
-        var windowHeight= $(window).height();
-
         var brush = new brushPencilPoint();
         var r = 230, g = 0, b = 0, brushOpacity = 1;
         var color; updateColor();
@@ -27,7 +28,6 @@ $(document).ready(function (){
         this.init = function() {
             initCanvas();
             initLeftPanel();
-            initRightPanel();
             initImgLoader();
 
             // Set default brush.
@@ -37,7 +37,7 @@ $(document).ready(function (){
 
         function initCanvas() {
             var aspect = 4 / 3;
-            var canvasPaddingAspect = 3 / 1;
+            var leftPadding = windowWidth / 5;
             var canvasWidth, canvasHeight, padding;
 
             canvas = $('#canvas');
@@ -46,28 +46,26 @@ $(document).ready(function (){
             // If mobile, fit canvas width to screen.
             if (windowWidth <= minDesktop) {
                 canvasWidth = windowWidth
-                padding = 0;
+                leftPadding = 0;
             }
             // If desktop, fit canvas according to canvasPaddingAspect.
             else {
-                // 2 * padding + canvas = width; aspect = canvas / padding.
-                canvasWidth = windowWidth / (2 / canvasPaddingAspect + 1);
-                padding = (windowWidth - canvasWidth) / 2;
+                // padding + canvas = width; aspect = canvas / padding.
+                canvasWidth = windowWidth - leftPadding;
             }
             // Readjust height if needed.
             canvasHeight = canvasWidth / aspect;
             if (canvasHeight > windowHeight) {
                 canvasHeight = windowHeight;
                 canvasWidth = canvasHeight * aspect;
-                padding = (windowWidth - canvasWidth) / 2;
+                leftPadding = windowWidth - canvasWidth;
             }
 
-            var paddingHeight = (windowHeight - canvasHeight - FOOTER) / 2;
-            ctx.canvas.width = canvasWidth;
-            ctx.canvas.height= canvasHeight;
-            canvas.css('margin-left', padding + 'px');
-            canvas.css('margin-right', padding + 'px');
+            ctx.canvas.width = canvasWidth - CANVAS_PADDING;
+            ctx.canvas.height= canvasHeight - CANVAS_PADDING - FOOTER;
+            canvas.css('margin-left', leftPadding + CANVAS_PADDING / 2 + 'px');
             canvas.css('background', 'rgb(255,255,255)');
+            var paddingHeight = windowHeight - ctx.canvas.height - FOOTER - CANVAS_PADDING / 2 - 5;
             canvas.css('margin-top', paddingHeight + 'px');
 
             // Give canvas an img link.
@@ -77,8 +75,10 @@ $(document).ready(function (){
 
 
         function initLeftPanel() {
-            var panelWidth = (windowWidth - ctx.canvas.width) / 2;
-            $('#left-panel').css('width', panelWidth + 'px');
+            var leftPanel = $('#left-panel');
+            leftPanel.css('width', PANEL_WIDTH + 'px');
+            var panelHeight = leftPanel.height() - FOOTER
+            leftPanel.css('height', panelHeight + 'px');
 
             // Color picker, sets color to selected value using callback.
             c = ColorPicker(
@@ -97,29 +97,21 @@ $(document).ready(function (){
 
             var colorPicker = $('.color-picker');
             var pickerWidth = colorPicker.outerWidth();
-            colorPicker.css('marginLeft', (panelWidth - pickerWidth) / 2);
-        }
-
-
-        function initRightPanel() {
-            var rightPanel = $('#right-panel');
-            var panelWidth = (windowWidth - ctx.canvas.width) / 2;
-            var panelHeight = rightPanel.height()
-            rightPanel.css('width', panelWidth + 'px');
+            colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
             // Brush selector.
             var brushPicker = $('#brush-picker');
-            var pickerWidth = panelWidth * .80;
+            var pickerWidth = PANEL_WIDTH * .80;
             brushPicker.css('width', pickerWidth);
-            brushPicker.css('height', panelHeight * 2 / 3);
-            brushPicker.css('marginLeft', (panelWidth - pickerWidth) / 2);
+            brushPicker.css('height', panelHeight / 4);
+            brushPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
             // Brush options widget toolbar.
             var brushOptions = $('#brush-options');
-            var optionsWidth = panelWidth * .80;
+            var optionsWidth = PANEL_WIDTH * .80;
             brushOptions.css('width', optionsWidth);
             brushOptions.css('height', panelHeight / 4);
-            brushOptions.css('marginLeft', (panelWidth - pickerWidth) / 2);
+            brushOptions.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
             // Brush size slider.
             $('#brushSize').html(brushSize);

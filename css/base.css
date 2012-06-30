@@ -2,15 +2,6 @@
     background: rgb(240,240,240);
 }
 
-canvas#color-bar {
-    background: rgb(130,130,130);
-    background-image: -moz-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
-    background-image: -webkit-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
-    background-image: -ms-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
-    background-image: -o-linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
-    background-image: linear-gradient(top, rgb(140,140,140), rgb(120,120,120));
-}
-
 #left-panel {
     position: absolute;
     top: 0;
@@ -47,6 +38,7 @@ canvas#color-bar {
     background: gray;
     box-shadow: 0px 0px 40px rgb(0, 0, 0);
     border-radius: 15px 15px 15px 15px;
+    float: left;
 }
 .brush-thumb {
     position: absolute;
@@ -71,6 +63,7 @@ canvas#color-bar {
     background: rgb(230, 230, 230);
     box-shadow: 0px 0px 40px rgb(0, 0, 0);
     border-radius: 15px 15px 15px 15px;
+    float: left;
 }
 .brush-option {
     margin-top: 1em;
