@@ -109,3 +109,20 @@ body {
     margin-right: auto;
     max-width: 960px;
 }
+
+.footer-button {
+    padding: 18px 33px 10px 33px;
+    border-left: 1px double rgb(10,10,10);
+    border-right: 1px double rgb(10,10,10);
+}
+.footer-button:hover {
+    background: rgb(15,15,15);
+}
+.footer-icon {
+    font-size: 21px;
+}
+
+#color-button {
+    color: rgb(230, 0, 0);
+}
+

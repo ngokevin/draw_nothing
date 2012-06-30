@@ -108,20 +108,8 @@ $(document).ready(function (){
             var panelHeight = leftPanel.height() - FOOTER
             leftPanel.css('height', panelHeight + 'px');
 
-            // Color picker, sets color to selected value using callback.
-            c = ColorPicker(
-                document.getElementById('slide'),
-                document.getElementById('picker'),
-                function(hex, hsv, rgb, mousePicker, mouseSlide) {
-                    r = rgb['r'], g = rgb['g'], b = rgb['b'];
-                    updateColor();
-                    ColorPicker.positionIndicators(
-                        $('.slide-indicator')[0],
-                        $('.picker-indicator')[0],
-                        mouseSlide, mousePicker
-                    );
-                }
-            );
+            // Color selector.
+            initColorPicker();
             var colorPicker = $('.color-picker');
             var pickerWidth = colorPicker.outerWidth();
             colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
@@ -170,6 +158,24 @@ $(document).ready(function (){
         }
 
 
+        function initColorPicker(slide=document.getElementById('slide'),
+                                 picker=document.getElementById('picker')) {
+            // Color picker, sets color to selected value using callback.
+            return ColorPicker(
+                slide, picker,
+                function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                    r = rgb['r'], g = rgb['g'], b = rgb['b'];
+                    updateColor();
+                    ColorPicker.positionIndicators(
+                        $('.slide-indicator')[0],
+                        $('.picker-indicator')[0],
+                        mouseSlide, mousePicker
+                    );
+                }
+            );
+        }
+
+
         /* Button to draw an image to the canvas from url */
         function initImgLoader() {
             $('#url-loader').click(function() {
@@ -210,6 +216,7 @@ $(document).ready(function (){
         function updateColor() {
             color = ('rgba(' + parseInt(r) + ', ' + parseInt(g) + ', '
                      + parseInt(b) + ', ' + brushOpacity + ')');
+            $('#color-picker-button').css('color', color);
         }
 
 
