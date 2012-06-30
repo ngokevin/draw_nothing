@@ -84,14 +84,18 @@ body {
     border-radius: 15px 15px 15px 15px;
     float: left;
 }
-.brush-option {
+.brush-option, .brush-option-menu {
     margin-top: 1em;
 }
-.option-header {
+.option-header, .option-header-menu {
     position: relative;
     font-size: .75em;
     top: 1em;
     margin-left: 15px;
+}
+.option-header-menu {
+    color: white;
+    font-weight: bold;
 }
 .slider {
     width: 70%;
@@ -101,6 +105,9 @@ body {
 .slider-val {
     margin-right: 15px;
     float: right;
+}
+.slider-val-menu {
+    color: white;
 }
 
 #brush-smaller {

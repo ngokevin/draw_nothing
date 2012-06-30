@@ -27,9 +27,14 @@ $(document).ready(function (){
         var ctx;
 
         var brush = new brushPencilPoint();
-        var r = 230, g = 0, b = 0, brushOpacity = 1;
-        var color; updateColor();
-        var brushSize = 5;
+
+        var r = 230, g = 0, b = 0;
+        var bOpts = {
+            color: '',
+            size: 5,
+            opacity: 1
+        };
+        updateColor()
 
         var lastClickedButton = '';
 
@@ -43,6 +48,7 @@ $(document).ready(function (){
             initLeftPanel();
             initMenuButton($('#color-picker-button'), $('#color-picker-menu'));
             initMenuButton($('#brush-picker-button'), $('#brush-picker-menu'));
+            initMenuButton($('#brush-options-button'), $('#brush-options-menu'));
             initImgLoader();
             swapBrush(brush);
         };
@@ -114,6 +120,9 @@ $(document).ready(function (){
             initColorPicker(slide=document.getElementById('slide-menu'),
                             picker=document.getElementById('picker-menu'));
             colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
+
+            initSizeSlider($('#brushSizeMenu'), $('#brushSizerMenu'));
+            initOpacitySlider($('#brushOpacityMenu'), $('#brushOpacityerMenu'));
         }
 
 
@@ -149,33 +158,9 @@ $(document).ready(function (){
             brushOptions.css('height', panelHeight / 4);
             brushOptions.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
-            // Brush size slider.
-            $('#brushSize').html(brushSize);
-            var updateBrushSize = function(value) {
-                $('#brushSize').html(value);
-                brushSize = value;
-            };
-            var sizeSlider = $('#brushSizer').slider({
-                min: 1, max: 120, value: brushSize,
-                slide: function(event, ui) { updateBrushSize(ui.value); },
-                change: function(event, ui) { updateBrushSize(ui.value); }
-            });
+            initSizeSlider($('#brushSize'), $('#brushSizer'));
+            initSizeSlider($('#brushOpacity'), $('#brushOpacityer'));
 
-            // Brush opacity slider.
-            $('#brushSize').html(brushSize);
-            $('#brushOpacity').html(brushOpacity);
-            var updateBrushOpacity = function(value) {
-                $('#brushOpacity').html(value);
-                brushOpacity = value;
-            };
-            var opacitySlider = $('#brushOpacityer').slider({
-                min: 0, max: 1, value: 1, step: .01,
-                slide: function(event, ui) { updateBrushOpacity(ui.value); },
-                change: function(event, ui) { updateBrushOpacity(ui.value); },
-                stop: function(event, ui) {
-                    updateColor();
-                }
-            });
         }
 
 
@@ -194,6 +179,39 @@ $(document).ready(function (){
                     );
                 }
             );
+        }
+
+
+        function initSizeSlider(label, slider) {
+            // Brush size slider.
+            label.html(bOpts['size']);
+            var updateBrushSize = function(value) {
+                label.html(value);
+                bOpts['size'] = value;
+            };
+            return slider.slider({
+                min: 1, max: 120, value: bOpts['size'],
+                slide: function(event, ui) { updateBrushSize(ui.value); },
+                change: function(event, ui) { updateBrushSize(ui.value); }
+            });
+        }
+
+
+        function initOpacitySlider(label, slider) {
+            // Brush opacity slider.
+            label.html(bOpts['opacity']);
+            var updateBrushOpacity = function(value) {
+                label.html(value);
+                bOpts['opacity'] = value;
+            };
+            return slider.slider({
+                min: 0, max: 1, value: 1, step: .01,
+                slide: function(event, ui) { updateBrushOpacity(ui.value); },
+                change: function(event, ui) { updateBrushOpacity(ui.value); },
+                stop: function(event, ui) {
+                    updateColor();
+                }
+            });
         }
 
 
@@ -256,9 +274,9 @@ $(document).ready(function (){
 
         // Takes the r, g, b, opacity variables to build an rgba.
         function updateColor() {
-            color = ('rgba(' + parseInt(r) + ', ' + parseInt(g) + ', '
-                     + parseInt(b) + ', ' + brushOpacity + ')');
-            $('#color-picker-button').css('color', color);
+            bOpts['color'] = ('rgba(' + parseInt(r) + ', ' + parseInt(g) + ', '
+                     + parseInt(b) + ', ' + bOpts['opacity'] + ')');
+            $('#color-picker-button').css('color', bOpts['color']);
         }
 
 
@@ -269,8 +287,8 @@ $(document).ready(function (){
             this.mousedown = function(e) {
                 e.preventDefault();
                 brush.started = true;
-                ctx.fillStyle = color;
-                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
+                ctx.fillStyle = bOpts['color'];
+                ctx.fillRect (e.pageX - this.offsetLeft, e.pageY - this.offsetTop, bOpts['size'], bOpts['size']);
             };
 
             this.mouseup = function(e) {
@@ -280,16 +298,16 @@ $(document).ready(function (){
             this.mousemove = function(e) {
                 e.preventDefault();
                 if (brush.started) {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, brushSize, brushSize);
+                    ctx.fillStyle = bOpts['color'];
+                    ctx.fillRect(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, bOpts['size'], bOpts['size']);
                 }
             };
 
             this.touch = function(e) {
-                ctx.fillStyle = color;
+                ctx.fillStyle = bOpts['color'];
                 for (var i = 1; i <= e.touches.length; i++) {
                     var p = getCoords(e.touches[i - 1], this);
-                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, brushSize, brushSize);
+                    ctx.fillRect(p.x - this.offsetLeft, p.y - this.offsetTop, bOpts['size'], bOpts['size']);
                 }
             };
        }
