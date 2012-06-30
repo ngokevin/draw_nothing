@@ -116,13 +116,20 @@ $(document).ready(function (){
             menu.css('height', menuHeight - FOOTER + 'px');
             menu.css('top', (windowHeight - menuHeight) / 2);
 
-            var colorPicker = $('#color-picker-menu')
-            initColorPicker(slide=document.getElementById('slide-menu'),
-                            picker=document.getElementById('picker-menu'));
+            initColorPicker(document.getElementById('slide-menu'), document.getElementById('picker-menu'));
+            var colorPicker = $('#color-picker-menu');
             colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
 
+            // Label, slider.
             initSizeSlider($('#brushSizeMenu'), $('#brushSizerMenu'));
-            initOpacitySlider($('#brushOpacityMenu'), $('#brushOpacityerMenu'));
+            initOpacitySlider($('brushOpacityMenu'), $('#brushOpacityerMenu'));
+
+            // Hide menu until called upon.
+            var brushMenus = $('#brushOptionsMenu');
+            brushMenus.hide();
+            brushMenus.css('visibility', 'visible');
+            menu.hide()
+            menu.css('visibility', 'visible');
         }
 
 
@@ -139,7 +146,7 @@ $(document).ready(function (){
             leftPanel.css('height', panelHeight + 'px');
 
             // Color selector.
-            initColorPicker();
+            initColorPicker(document.getElementById('slide'), document.getElementById('picker'));
             var colorPicker = $('.color-picker');
             var pickerWidth = colorPicker.outerWidth();
             colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
@@ -164,8 +171,7 @@ $(document).ready(function (){
         }
 
 
-        function initColorPicker(slide=document.getElementById('slide'),
-                                 picker=document.getElementById('picker')) {
+        function initColorPicker(slide, picker) {
             // Color picker, sets color to selected value using callback.
             return ColorPicker(
                 slide, picker,
@@ -223,13 +229,12 @@ $(document).ready(function (){
             // another button clicked.
             button.click(function() {
                 if (button.selector == lastClickedButton) {
-                    menu.css('visibility', 'hidden');
-                    menuItems.css('visibility', 'hidden');
+                    menu.hide();
                     lastClickedButton = '';
                 } else {
-                    menu.css('visibility', 'visible');
-                    menuItems.css('visibility', 'hidden');
-                    pickerMenu.css('visibility', 'visible');
+                    menuItems.hide();
+                    menu.show()
+                    pickerMenu.show();
                     lastClickedButton = button.selector;
                 }
             });
