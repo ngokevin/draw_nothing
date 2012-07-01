@@ -46,6 +46,7 @@ $(document).ready(function (){
             if (MOBILE) { dbg('mobile') };
 
             initCanvas();
+            initColorPicker();
             initMenu();
             initLeftPanel();
             initMenuButton($('#color-picker-button'), $('#color-picker-menu'));
@@ -118,12 +119,18 @@ $(document).ready(function (){
             menu.css('height', menuHeight - FOOTER + 'px');
             menu.css('top', (windowHeight - menuHeight) / 2);
 
-            var colorPicker = $('#color-picker-menu');
+            var colorPicker = $('#colorwheel-menu');
             colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
 
             // Label, slider.
-            initSizeSlider($('#brushSizeMenu'), $('#brushSizerMenu'));
-            initOpacitySlider($('brushOpacityMenu'), $('#brushOpacityerMenu'));
+            var brushSizerMenu = $('#brushSizerMenu');
+            initSizeSlider($('#brushSizeMenu'), brushSizerMenu);
+            initOpacitySlider($('#brushOpacityMenu'), $('#brushOpacityerMenu'));
+
+            var sliderWidth = brushSizerMenu.width()
+            $('.brush-option-menu').css('width', '85%');
+            $('.brush-option-menu').css('paddingLeft', (menuWidth - sliderWidth) / 2);
+            $('.slider-val-menu').css('marginLeft', sliderWidth + 25);
 
             // Hide menu until called upon.
             menu.hide()
@@ -144,10 +151,8 @@ $(document).ready(function (){
             leftPanel.css('height', panelHeight + 'px');
 
             // Color selector.
-            initColorPicker();
             var colorPicker = $('#colorwheel');
-            var pickerWidth = colorPicker.outerWidth();
-            colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
+            colorPicker.css('marginLeft', (PANEL_WIDTH - colorPicker.outerWidth()) / 2);
 
             // Brush selector.
             var brushPicker = $('#brush-picker');
@@ -168,7 +173,7 @@ $(document).ready(function (){
         }
 
 
-        function initColorPicker() {
+        function initColorPicker(element, cw) {
             colorwheel = Raphael.colorwheel($('#colorwheel')[0], 200, 60);
             colorwheelMenu = Raphael.colorwheel($('#colorwheel-menu')[0], 200, 60);
 
@@ -256,8 +261,8 @@ $(document).ready(function (){
 
         /* Button to draw an image to the canvas from url */
         function initImgLoader() {
-            $('#url-loader').click(function() {
-                var url = prompt('Background Loader: enter image URL');
+            $('#img-loader-button').click(function() {
+                var url = prompt('Background image loader.\nInput image url.');
                 img = Image();
                 img.src = url;
                 img.onload = function() {
