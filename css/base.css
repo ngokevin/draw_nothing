@@ -17,6 +17,7 @@ body {
     width: 99%;
     height: 99%;
 
+    background: rgb(40, 40, 40);
     background-image: -moz-linear-gradient(top, rgba(5,5,5,.8), rgba(70,70,70,.8));
     background-image: -webkit-linear-gradient(top, rgba(5,5,5,.8), rgba(70,70,70,.8));
     background-image: -ms-linear-gradient(top, rgba(5,5,5,.8), rgba(70,70,70,.8));
@@ -173,11 +174,12 @@ body {
 }
 
 .footer-button {
-    padding: 18px 33px 10px 33px;
+    padding: 10px 25px 10px 25px;
     border-left: 1px double rgb(10,10,10);
     border-right: 1px double rgb(10,10,10);
 }
 .footer-button:hover {
+    background: rgb(50, 50, 50);
     background-image: -moz-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
     background-image: -webkit-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
     background-image: -ms-linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
@@ -185,6 +187,7 @@ body {
     background-image: linear-gradient(top, rgb(65,65,65), rgb(40,40,40));
 }
 .footer-button:active {
+    background: rgb(20, 20, 20);
     background-image: -moz-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
     background-image: -webkit-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
     background-image: -ms-linear-gradient(top, rgb(30,30,30), rgb(15,15,15));
