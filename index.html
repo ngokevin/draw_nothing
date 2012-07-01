@@ -6,11 +6,11 @@
         <link rel='stylesheet' type='text/css' href='css/sticky_footer.css' />
         <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
         <link rel='stylesheet' type='text/css' href='css/jquery-ui-1.8.21.custom.css' />
-        <link rel='stylesheet' type='text/css' href='css/color-picker.css' />
 
-        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+        <script type='text/javascript' src='js/jquery-1.7.1.min.js'></script>
         <script type='text/javascript' src='js/jquery-ui-1.8.21.custom.min.js'></script>
-        <script type='text/javascript' src='js/colorpicker.min.js'></script>
+        <script type='text/javascript' src='js/raphael-1.3.1-min.js'></script>
+        <script type='text/javascript' src='js/colorwheel.js'></script>
 
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
     </head>
@@ -21,16 +21,8 @@
             <div id='main'>
 
                 <div id='menu'>
-                    <div id='color-picker-menu' class='cp-default color-picker-menu menu-item'>
-                        <div class='picker-wrapper'>
-                            <div id='picker-menu' class='picker'>
-                                <div class='picker-indicator'></div>
-                            </div>
-                            <div class='slide-wrapper'>
-                                <div id='slide-menu' class='slide'></div>
-                                <div class='slide-indicator'></div>
-                            </div>
-                        </div>
+                    <div id='color-picker-menu' class='menu-item'>
+                        <div id='colorwheel-menu' class='colorwheel'></div>
                     </div>
                     <div id='brush-picker-menu' class='menu-item'>
                         <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
@@ -50,17 +42,7 @@
                 </div>
 
                 <div id='left-panel'>
-                    <div id='color-picker' class='cp-default'>
-                        <div class='picker-wrapper'>
-                            <div id='picker' class='picker'>
-                                <div class='picker-indicator'></div>
-                            </div>
-                            <div class='slide-wrapper'>
-                                <div id='slide' class='slide'></div>
-                                <div class='slide-indicator'></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id='colorwheel' class='colorwheel'></div>
                     <div id='brush-picker'>
                         <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
                     </div>

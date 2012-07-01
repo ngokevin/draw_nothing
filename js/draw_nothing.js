@@ -28,11 +28,13 @@ $(document).ready(function (){
 
         var brush = new brushPencilPoint();
 
+        var colorwheel = null, colorwheelMenu = null;
+
         var r = 230, g = 0, b = 0;
         var bOpts = {
-            color: '',
-            size: 5,
-            opacity: 1
+            color: null,
+            size: 20,
+            opacity: .6,
         };
         updateColor()
 
@@ -116,7 +118,6 @@ $(document).ready(function (){
             menu.css('height', menuHeight - FOOTER + 'px');
             menu.css('top', (windowHeight - menuHeight) / 2);
 
-            initColorPicker(document.getElementById('slide-menu'), document.getElementById('picker-menu'));
             var colorPicker = $('#color-picker-menu');
             colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
 
@@ -125,9 +126,6 @@ $(document).ready(function (){
             initOpacitySlider($('brushOpacityMenu'), $('#brushOpacityerMenu'));
 
             // Hide menu until called upon.
-            var brushMenus = $('#brushOptionsMenu');
-            brushMenus.hide();
-            brushMenus.css('visibility', 'visible');
             menu.hide()
             menu.css('visibility', 'visible');
         }
@@ -146,8 +144,8 @@ $(document).ready(function (){
             leftPanel.css('height', panelHeight + 'px');
 
             // Color selector.
-            initColorPicker(document.getElementById('slide'), document.getElementById('picker'));
-            var colorPicker = $('.color-picker');
+            initColorPicker();
+            var colorPicker = $('#colorwheel');
             var pickerWidth = colorPicker.outerWidth();
             colorPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
@@ -166,25 +164,40 @@ $(document).ready(function (){
             brushOptions.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
             initSizeSlider($('#brushSize'), $('#brushSizer'));
-            initSizeSlider($('#brushOpacity'), $('#brushOpacityer'));
-
+            initOpacitySlider($('#brushOpacity'), $('#brushOpacityer'));
         }
 
 
-        function initColorPicker(slide, picker) {
-            // Color picker, sets color to selected value using callback.
-            return ColorPicker(
-                slide, picker,
-                function(hex, hsv, rgb, mousePicker, mouseSlide) {
-                    r = rgb['r'], g = rgb['g'], b = rgb['b'];
-                    updateColor();
-                    ColorPicker.positionIndicators(
-                        $('.slide-indicator')[0],
-                        $('.picker-indicator')[0],
-                        mouseSlide, mousePicker
-                    );
-                }
-            );
+        function initColorPicker() {
+            colorwheel = Raphael.colorwheel($('#colorwheel')[0], 200, 60);
+            colorwheelMenu = Raphael.colorwheel($('#colorwheel-menu')[0], 200, 60);
+
+            colorwheel.color(rgbToHex(r, g, b));
+            colorwheelMenu.color(rgbToHex(r, g, b));
+            $('#color-picker-icon').css('color', bOpts['color'])
+
+            colorwheel.onchange(function(color) {
+                r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
+                updateColor();
+                colorwheelMenu.color(rgbToHex(r, g, b));
+                $('#color-picker-icon').css('color', bOpts['color'])
+            });
+
+            colorwheelMenu.onchange(function(color) {
+                r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
+                updateColor();
+                colorwheel.color(rgbToHex(r, g, b));
+                $('#color-picker-icon').css('color', bOpts['color'])
+            });
+        }
+
+
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+        function rgbToHex(r, g, b) {
+            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
         }
 
 
@@ -205,13 +218,13 @@ $(document).ready(function (){
 
         function initOpacitySlider(label, slider) {
             // Brush opacity slider.
-            label.html(bOpts['opacity']);
             var updateBrushOpacity = function(value) {
-                label.html(value);
+                label.html((value + '').replace(/^[0]+/g, ''));
                 bOpts['opacity'] = value;
             };
+            updateBrushOpacity(bOpts['opacity']);
             return slider.slider({
-                min: 0, max: 1, value: 1, step: .01,
+                min: .01, max: 1, value: bOpts['opacity'], step: .01,
                 slide: function(event, ui) { updateBrushOpacity(ui.value); },
                 change: function(event, ui) { updateBrushOpacity(ui.value); },
                 stop: function(event, ui) {
@@ -281,7 +294,6 @@ $(document).ready(function (){
         function updateColor() {
             bOpts['color'] = ('rgba(' + parseInt(r) + ', ' + parseInt(g) + ', '
                      + parseInt(b) + ', ' + bOpts['opacity'] + ')');
-            $('#color-picker-button').css('color', bOpts['color']);
         }
 
 
