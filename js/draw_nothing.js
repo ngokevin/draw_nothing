@@ -17,7 +17,9 @@ $(document).ready(function (){
     var DESKTOP = windowWidth > minDesktop;
     var MOBILE = (windowWidth > minMobile && !DESKTOP) || windowHeight < minDesktop;
 
-    var HEADER = 30;
+    var HEADER = 0;
+    if (MOBILE)
+        var HEADER = 30;
     var FOOTER = 50;
     var PANEL_WIDTH = 280;
 
@@ -96,7 +98,7 @@ $(document).ready(function (){
             }
 
             ctx.canvas.width = canvasWidth - canvasPadding;
-            ctx.canvas.height= canvasHeight - canvasPadding - FOOTER;
+            ctx.canvas.height = canvasHeight - canvasPadding - FOOTER;
 
             var paddingWidth = leftPadding + canvasPadding / 2;
             var paddingHeight = (windowHeight - ctx.canvas.height - FOOTER - canvasPadding / 2) / 2 + 5;
@@ -120,9 +122,9 @@ $(document).ready(function (){
             var menuWidth = menu.width();
             menu.css('left', (windowWidth - menuWidth) / 2);
 
-            var menuHeight = menu.height();
-            menu.css('height', menuHeight - FOOTER + 'px');
-            menu.css('top', (windowHeight - menuHeight) / 2);
+            var menuHeight = menu.height() - FOOTER - HEADER;
+            menu.css('height', menuHeight + 'px');
+            menu.css('top', (windowHeight - HEADER - FOOTER - menuHeight) / 2 + HEADER);
 
             var colorPicker = $('#colorwheel-menu');
             colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
@@ -203,6 +205,7 @@ $(document).ready(function (){
             }
             // Create canvas-based color picker if Raphael not compatible.
             catch (err) {
+                $('#color-picker-icon').css('color', bOpts['color'])
                 colorwheel =  $('#colorwheel-menu');
                 colorwheel.css('position', 'absolute');
                 colorwheel.css('width', windowWidth / 1.5 + 'px');
@@ -215,6 +218,7 @@ $(document).ready(function (){
                     onColorChange: function(rgb, hsv) {
                         r = parseInt(rgb.r); g = parseInt(rgb.g); b = parseInt(rgb.b);
                         updateColor();
+                        $('#color-picker-icon').css('color', bOpts['color'])
                     }
                 });
             }
