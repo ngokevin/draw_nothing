@@ -3,6 +3,29 @@ body {
     overflow: hidden;
     visibility: hidden;
 }
+
+#mobile-header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 25px;
+    width: 100%;
+    padding-top: 5px;
+    font-weight: bold;
+
+    background: rgb(30, 30, 30);
+    background-image: -moz-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -webkit-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -ms-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: -o-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    background-image: linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+
+    text-align: center;
+    color: rgb(200,200,200);
+
+    display: none;
+}
+
 #canvas-wrap {
     overflow: auto;
 }
@@ -32,7 +55,7 @@ body {
 #menu hr {
     color: black;
 }
-.menu-item h3 {
+.menu-item h3, #left-panel h3 {
     color: white;
     text-align: center;
     margin-top: 1em;
@@ -168,7 +191,7 @@ body {
 }
 
 .footer-button {
-    padding: 17px 25px 15px 25px;
+    padding: 17px 25px 10px 25px;
     border-left: 1px double rgb(10,10,10);
     border-right: 1px double rgb(10,10,10);
 }

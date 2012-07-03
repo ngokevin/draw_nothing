@@ -17,6 +17,7 @@ $(document).ready(function (){
     var DESKTOP = windowWidth > minDesktop;
     var MOBILE = (windowWidth > minMobile && !DESKTOP) || windowHeight < minDesktop;
 
+    var HEADER = 30;
     var FOOTER = 50;
     var PANEL_WIDTH = 280;
 
@@ -77,7 +78,8 @@ $(document).ready(function (){
             if (MOBILE) {
                 canvasPadding = 0;
                 canvasWidth = windowWidth;
-                canvasHeight = windowHeight;
+                canvasHeight = windowHeight - HEADER;
+                $('#mobile-header').css('display', 'block');
             }
             // If desktop, fit canvas according to canvasPaddingAspect.
             else {
@@ -100,7 +102,7 @@ $(document).ready(function (){
             var paddingHeight = (windowHeight - ctx.canvas.height - FOOTER - canvasPadding / 2) / 2 + 5;
             if (MOBILE) {
                 paddingWidth= 0;
-                paddingHeight = 0;
+                paddingHeight = HEADER;
             }
 
             canvas.css('margin-left', paddingWidth + 'px');
@@ -160,7 +162,7 @@ $(document).ready(function (){
             var brushPicker = $('#brush-picker');
             var pickerWidth = PANEL_WIDTH * .80;
             brushPicker.css('width', pickerWidth);
-            brushPicker.css('height', panelHeight / 4);
+            brushPicker.css('height', panelHeight / 3);
             brushPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
 
             // Brush options widget toolbar.
