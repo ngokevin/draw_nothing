@@ -1,6 +1,7 @@
 body {
     background: rgb(190,190,190);
     overflow: hidden;
+    visibility: hidden;
 }
 #canvas-wrap {
     overflow: auto;
@@ -33,6 +34,7 @@ body {
 }
 
 #left-panel {
+    visibility: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -174,7 +176,7 @@ body {
 }
 
 .footer-button {
-    padding: 10px 25px 10px 25px;
+    padding: 17px 25px 15px 25px;
     border-left: 1px double rgb(10,10,10);
     border-right: 1px double rgb(10,10,10);
 }

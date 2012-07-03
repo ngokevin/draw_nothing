@@ -2,25 +2,27 @@ $(document).ready(function (){
 
     function dbg(str) { console.log(str); }
 
+    var userAgent = navigator.userAgent;
     var windowWidth = $(window).width();
     var windowHeight= $(window).height();
 
-    var minDesktop = 1025;
-    var minTablet = 641;
+    // Window height in Firefox Mobile is weird.
+    if (userAgent.indexOf('Firefox') > -1 && userAgent.indexOf('Mobile') > -1) {
+        windowHeight *= .665;
+    }
+
+    var minDesktop = 800;
     var minMobile= 320;
 
     var DESKTOP = windowWidth > minDesktop;
-    var TABLET = windowWidth > minTablet && !DESKTOP;
-    var MOBILE = (windowWidth > minMobile && !TABLET && !DESKTOP) || windowHeight < minTablet;
+    var MOBILE = (windowWidth > minMobile && !DESKTOP) || windowHeight < minDesktop;
 
     var FOOTER = 50;
     var PANEL_WIDTH = 280;
 
-    // prevent scrolling on touch devices
-    document.body.addEventListener('touchmove', function(e) {
-        event.preventDefault();
-    }, false);
-
+    // Prevent scrolling on touch devices.
+    $('#canvas').on("touchmove", false);
+    $('#canvas').on("touchstart", false);
 
     function draw_nothing() {
         var canvas;
@@ -42,7 +44,6 @@ $(document).ready(function (){
 
         this.init = function() {
             if (DESKTOP) { dbg('desktop') };
-            if (TABLET) { dbg('tablet') };
             if (MOBILE) { dbg('mobile') };
 
             initCanvas();
@@ -54,6 +55,9 @@ $(document).ready(function (){
             initMenuButton($('#brush-options-button'), $('#brush-options-menu'));
             initImgLoader();
             swapBrush(brush);
+
+            // Don't show until rendered.
+            $(document.body).css('visibility', 'visible');
         };
 
 
@@ -63,8 +67,7 @@ $(document).ready(function (){
 
             if (windowWidth - PANEL_WIDTH > windowHeight) {
                 var aspect = 4 / 3;
-            }
-            else {
+            } else {
                 var aspect = 3 / 4;
             }
             canvas = $('#canvas');
@@ -130,7 +133,7 @@ $(document).ready(function (){
             var sliderWidth = brushSizerMenu.width()
             $('.brush-option-menu').css('width', '85%');
             $('.brush-option-menu').css('paddingLeft', (menuWidth - sliderWidth) / 2);
-            $('.slider-val-menu').css('marginLeft', sliderWidth + 25);
+            $('.slider-val-menu').css('marginLeft', sliderWidth);
 
             // Hide menu until called upon.
             menu.hide()
@@ -140,7 +143,6 @@ $(document).ready(function (){
 
         function initLeftPanel() {
             var leftPanel = $('#left-panel');
-
             if (MOBILE) {
                 leftPanel.hide();
                 return;
@@ -170,30 +172,50 @@ $(document).ready(function (){
 
             initSizeSlider($('#brushSize'), $('#brushSizer'));
             initOpacitySlider($('#brushOpacity'), $('#brushOpacityer'));
+            leftPanel.css('visibility', 'visible');
         }
 
 
         function initColorPicker(element, cw) {
-            colorwheel = Raphael.colorwheel($('#colorwheel')[0], 200, 60);
-            colorwheelMenu = Raphael.colorwheel($('#colorwheel-menu')[0], 200, 60);
+            try {
+                colorwheel = Raphael.colorwheel($('#colorwheel')[0], 200, 60);
+                colorwheelMenu = Raphael.colorwheel($('#colorwheel-menu')[0], 200, 60);
 
-            colorwheel.color(rgbToHex(r, g, b));
-            colorwheelMenu.color(rgbToHex(r, g, b));
-            $('#color-picker-icon').css('color', bOpts['color'])
-
-            colorwheel.onchange(function(color) {
-                r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
-                updateColor();
+                colorwheel.color(rgbToHex(r, g, b));
                 colorwheelMenu.color(rgbToHex(r, g, b));
                 $('#color-picker-icon').css('color', bOpts['color'])
-            });
 
-            colorwheelMenu.onchange(function(color) {
-                r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
-                updateColor();
-                colorwheel.color(rgbToHex(r, g, b));
-                $('#color-picker-icon').css('color', bOpts['color'])
-            });
+                colorwheel.onchange(function(color) {
+                    r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
+                    updateColor();
+                    colorwheelMenu.color(rgbToHex(r, g, b));
+                    $('#color-picker-icon').css('color', bOpts['color'])
+                });
+
+                colorwheelMenu.onchange(function(color) {
+                    r = parseInt(color.r); b = parseInt(color.b); g = parseInt(color.g);
+                    updateColor();
+                    colorwheel.color(rgbToHex(r, g, b));
+                    $('#color-picker-icon').css('color', bOpts['color'])
+                });
+            }
+            // Create canvas-based color picker if Raphael not compatible.
+            catch (err) {
+                colorwheel =  $('#colorwheel-menu');
+                colorwheel.css('position', 'absolute');
+                colorwheel.css('width', windowWidth / 1.5 + 'px');
+                colorwheel.css('height', windowHeight / 3 + 'px');
+                $('#colorwheel-menu').CanvasColorPicker({
+                    flat: true,
+                    showButtons: false, showPreview: false,
+                    showHSB: false, showColor: false,
+                    color: {r: r, g: g, b: b},
+                    onColorChange: function(rgb, hsv) {
+                        r = parseInt(rgb.r); g = parseInt(rgb.g); b = parseInt(rgb.b);
+                        updateColor();
+                    }
+                });
+            }
         }
 
 
