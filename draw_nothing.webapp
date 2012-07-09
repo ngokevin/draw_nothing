@@ -1,12 +1,12 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "name": "Draw Nothing",
   "description": "Less-than-basic doodle application that allows you to draw almost nothing!",
-  "launch_path": "/~ngoke/draw_nothing/",
+  "launch_path": "/",
   "icons": {
-    "16": "http://ngokevin.com/~ngoke/draw_nothing/img/icon-16.png",
-    "48": "http://ngokevin.com/~ngoke/draw_nothing/img/icon-48.png",
-    "128": "http://ngokevin.com/~ngoke/draw_nothing/img/icon-128.png"
+    "16": "http://drawnothing.ngokevin.com/img/icon-16.png",
+    "48": "http://drawnothing.ngokevin.com/img/icon-48.png",
+    "128": "http://drawnothing.ngokevin.com/img/icon-128.png"
   },
   "developer": {
     "name": "Kevin Ngo",

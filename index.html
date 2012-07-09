@@ -1,42 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html manifest="/.cache.manifest">
     <head>
         <title>Draw Nothing</title>
         <link rel='stylesheet' type='text/css' href='css/base.css' />
         <link rel='stylesheet' type='text/css' href='css/sticky_footer.css' />
         <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
-        <link rel='stylesheet' type="text/css" href="css/jquery-ui-1.8.20.custom.css" />
         <link rel='icon' type="image/x-icon" href="img/icon-16.png" />
+        <link rel='stylesheet' type='text/css' href='css/jquery-ui-1.8.21.custom.css' />
 
-        <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type='text/javascript' src='js/jquery-1.7.1.min.js'></script>
+        <script type='text/javascript' src='js/jquery-ui-1.8.21.custom.min.js'></script>
+        <script type='text/javascript' src='js/raphael-1.3.1-min.js'></script>
+        <script type='text/javascript' src='js/colorwheel.js'></script>
+        <script type='text/javascript' src='js/canvascolorpicker.min.js'></script>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
     </head>
 
     <body style='position:relative;'>
 
         <div id='wrap'>
             <div id='main'>
-                <canvas style='z-index:0' id='color-bar'></canvas>
-                <canvas style='z-index:-1' id='canvas'></canvas>
+                <div id="mobile-header">Draw Nothing</div>
+
+                <div id='menu'>
+                    <div id='color-picker-menu' class='menu-item'>
+                        <h3>Color Palette</h3>
+                        <div id='colorwheel-menu' class='colorwheel'></div>
+                    </div>
+                    <div id='brush-picker-menu' class='menu-item'>
+                        <h3>Brush Set</h3>
+                        <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
+                    </div>
+                    <div id='brush-options-menu' class='menu-item'>
+                        <h3>Brush Options</h3>
+                        <div class='brush-option-menu'>
+                            <p class='option-header-menu'>Brush Size</p>
+                            <div class='slider' id='brushSizerMenu'></div>
+                            <p class='slider-val-menu' id='brushSizeMenu'></p>
+                        </div><hr>
+                        <div class='brush-option-menu'>
+                            <p class='option-header-menu'>Brush Opacity</p>
+                            <div class='slider' id='brushOpacityerMenu'></div>
+                            <p class='slider-val-menu' id='brushOpacityMenu'></p>
+                        </div><hr>
+                    </div>
+                </div>
+
+                <div id='left-panel'>
+                    <h3>Draw Nothing</h3>
+                    <div id='colorwheel' class='colorwheel'></div>
+                    <div id='brush-picker'>
+                        <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
+                    </div>
+                    <div id='brush-options'>
+                        <div class='brush-option'>
+                            <p class='option-header'>Brush Size</p>
+                            <div class='slider' id='brushSizer'></div>
+                            <p class='slider-val' id='brushSize'></p>
+                        </div>
+                        <div class='brush-option'>
+                            <p class='option-header'>Brush Opacity</p>
+                            <div class='slider' id='brushOpacityer'></div>
+                            <p class='slider-val' id='brushOpacity'></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='canvas-wrap'><canvas id='canvas'></canvas></div>
                 <img width=0 height=0 id='canvas-img'></img>
+
             </div>
         </div>
 
         <div id='footer'>
             <div id='footer-container'>
                 <div style='float:left;'>
-                    <i id='brush-icon' class='icon-tint'></i>
-                    <i id='brush-smaller' class='icon-minus'></i>
-                    <i id='brush-larger' class='icon-plus'></i>
+                    <a id='color-picker-button' class='footer-button'>
+                        <i id='color-picker-icon' class='footer-icon icon-tint'></i>
+                    </a>
+                    <a id='brush-picker-button' class='footer-button'>
+                        <i id='brush-picker-icon' class='footer-icon icon-pencil'></i>
+                    </a>
+                    <a id='brush-options-button' class='footer-button'>
+                        <i id='brush-picker-icon' class='footer-icon icon-tasks'></i>
+                    </a>
                 </div>
 
-               <i class="icon-pencil"></i>
-               DRAW NOTHING
-
                 <div style='float:right;'>
-                    <i id='url-loader' class='icon-picture'></i>
+                    <span id='img-loader-button' class='footer-button'>
+                        <i id='url-loader' class='footer-icon icon-picture'></i>
+                    </span>
                 </div>
             </div>
         </div>
