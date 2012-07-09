@@ -4,14 +4,15 @@
   "description": "Less-than-basic doodle application that allows you to draw almost nothing!",
   "launch_path": "/",
   "icons": {
-    "16": "http://drawnothing.ngokevin.com/img/icon-16.png",
-    "48": "http://drawnothing.ngokevin.com/img/icon-48.png",
-    "128": "http://drawnothing.ngokevin.com/img/icon-128.png"
+    "16": "/img/icon-16.png",
+    "48": "/img/icon-48.png",
+    "128": /img/icon-128.png"
   },
   "developer": {
     "name": "Kevin Ngo",
     "url": "http://ngokevin.com"
   },
+  "appcache_path": "/.cache.manifest",
   "installs_allowed_from": [
     "https://marketplace.mozilla.org"
   ],
