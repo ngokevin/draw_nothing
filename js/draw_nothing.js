@@ -2,11 +2,11 @@ $(document).ready(function (){
 
     function dbg(str) { console.log(str); }
 
-    var userAgent = navigator.userAgent;
     var windowWidth = $(window).width();
     var windowHeight= $(window).height();
 
     // Window height in Firefox Mobile is weird.
+    var userAgent = navigator.userAgent;
     if (userAgent.indexOf('Firefox') > -1 && userAgent.indexOf('Mobile') > -1) {
         windowHeight *= .665;
     }
@@ -21,7 +21,7 @@ $(document).ready(function (){
     if (MOBILE)
         var HEADER = 30;
     var FOOTER = 50;
-    var PANEL_WIDTH = 280;
+    var PANEL_WIDTH = 225;
 
     // Prevent scrolling on touch devices.
     $('#canvas').on("touchmove", false);
@@ -59,8 +59,8 @@ $(document).ready(function (){
             initMenuButton($('#brush-options-button'), $('#brush-options-menu'));
             initImgLoader();
             swapBrush(brush);
-            adjustWindow();
 
+            adjustWindow();
             window.onresize = adjustWindow;
 
             // Don't show until rendered.
@@ -71,7 +71,16 @@ $(document).ready(function (){
         function adjustWindow() {
             windowWidth = $(window).width();
             windowHeight = $(window).height();
-            canvas.css('margin-left', 225 + (windowWidth - canvas.width() - 225) / 2);
+            DESKTOP = windowWidth > minDesktop;
+            MOBILE = (windowWidth > minMobile && !DESKTOP) || windowWidth < minDesktop;
+
+            // Center canvas.
+            if (!MOBILE) {
+                canvas.css('margin-left', 225 + (windowWidth - canvas.width() - 225) / 2);
+            } else {
+                canvas.css('margin-left', 0);
+
+            }
         }
 
 
@@ -87,19 +96,9 @@ $(document).ready(function (){
         }
 
 
-
-
         function initMenu() {
             var menu = $('#menu');
             var menuWidth = menu.width();
-            menu.css('left', (windowWidth - menuWidth) / 2);
-
-            var menuHeight = menu.height() - FOOTER - HEADER;
-            menu.css('height', menuHeight + 'px');
-            menu.css('top', (windowHeight - HEADER - FOOTER - menuHeight) / 2 + HEADER);
-
-            var colorPicker = $('#colorwheel-menu');
-            colorPicker.css('marginLeft', (menuWidth - colorPicker.outerWidth()) / 2);
 
             // Label, slider.
             var brushSizerMenu = $('#brushSizerMenu');

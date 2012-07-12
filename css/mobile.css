@@ -19,7 +19,10 @@
   #canvas {
     height: 95%;
     width: 100%;
-    margin-left: 0%; }
+    margin-left: 0; }
 
   #left-panel {
-    display: none; } }
+    display: none; }
+
+  #menu {
+    top: 4%; } }
