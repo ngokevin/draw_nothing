@@ -1,0 +1,32 @@
+@media only screen and (max-width: 960px){
+    #mobile-header {
+        height: 3%;
+        width: 100%;
+
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding-top: 5px;
+        text-align: center;
+
+        font-weight: bold;
+        color: rgb(200,200,200);
+        background: rgb(30, 30, 30);
+        background-image: -moz-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+        background-image: -webkit-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+        background-image: -ms-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+        background-image: -o-linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+        background-image: linear-gradient(top, rgb(45,45,45), rgb(20,20,20));
+    }
+
+    #canvas {
+        height: 95%;
+        width: 100%;
+
+        margin-left: 0%;
+    }
+
+    #left-panel {
+        display: none;
+    }
+}
