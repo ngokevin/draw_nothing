@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html manifest="/.cache.manifest">
+<!--<html manifest="/.cache.manifest">-->
+<html>
     <head>
         <title>Draw Nothing</title>
         <link rel='stylesheet' type='text/css' href='css/base.css' />
+        <link rel='stylesheet' type='text/css' href='css/mobile.css' />
         <link rel='stylesheet' type='text/css' href='css/sticky_footer.css' />
         <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
         <link rel='icon' type="image/x-icon" href="img/icon-16.png" />
@@ -19,58 +21,56 @@
 
     <body style='position:relative;'>
 
-        <div id='wrap'>
-            <div id='main'>
-                <div id="mobile-header">Draw Nothing</div>
+        <div id='main'>
+            <div id="mobile-header">Draw Nothing</div>
 
-                <div id='menu'>
-                    <div id='color-picker-menu' class='menu-item'>
-                        <h3>Color Palette</h3>
-                        <div id='colorwheel-menu' class='colorwheel'></div>
-                    </div>
-                    <div id='brush-picker-menu' class='menu-item'>
-                        <h3>Brush Set</h3>
-                        <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
-                    </div>
-                    <div id='brush-options-menu' class='menu-item'>
-                        <h3>Brush Options</h3>
-                        <div class='brush-option-menu'>
-                            <p class='option-header-menu'>Brush Size</p>
-                            <div class='slider' id='brushSizerMenu'></div>
-                            <p class='slider-val-menu' id='brushSizeMenu'></p>
-                        </div><hr>
-                        <div class='brush-option-menu'>
-                            <p class='option-header-menu'>Brush Opacity</p>
-                            <div class='slider' id='brushOpacityerMenu'></div>
-                            <p class='slider-val-menu' id='brushOpacityMenu'></p>
-                        </div><hr>
-                    </div>
+            <div id='menu'>
+                <div id='color-picker-menu' class='menu-item'>
+                    <h3>Color Palette</h3>
+                    <div id='colorwheel-menu' class='colorwheel'></div>
                 </div>
-
-                <div id='left-panel'>
-                    <h3>Draw Nothing</h3>
-                    <div id='colorwheel' class='colorwheel'></div>
-                    <div id='brush-picker'>
-                        <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
-                    </div>
-                    <div id='brush-options'>
-                        <div class='brush-option'>
-                            <p class='option-header'>Brush Size</p>
-                            <div class='slider' id='brushSizer'></div>
-                            <p class='slider-val' id='brushSize'></p>
-                        </div>
-                        <div class='brush-option'>
-                            <p class='option-header'>Brush Opacity</p>
-                            <div class='slider' id='brushOpacityer'></div>
-                            <p class='slider-val' id='brushOpacity'></p>
-                        </div>
-                    </div>
+                <div id='brush-picker-menu' class='menu-item'>
+                    <h3>Brush Set</h3>
+                    <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
                 </div>
-
-                <div id='canvas-wrap'><canvas id='canvas'></canvas></div>
-                <img width=0 height=0 id='canvas-img'></img>
-
+                <div id='brush-options-menu' class='menu-item'>
+                    <h3>Brush Options</h3>
+                    <div class='brush-option-menu'>
+                        <p class='option-header-menu'>Brush Size</p>
+                        <div class='slider' id='brushSizerMenu'></div>
+                        <p class='slider-val-menu' id='brushSizeMenu'></p>
+                    </div><hr>
+                    <div class='brush-option-menu'>
+                        <p class='option-header-menu'>Brush Opacity</p>
+                        <div class='slider' id='brushOpacityerMenu'></div>
+                        <p class='slider-val-menu' id='brushOpacityMenu'></p>
+                    </div><hr>
+                </div>
             </div>
+
+            <div id='left-panel'>
+                <h3>Draw Nothing</h3>
+                <div id='colorwheel' class='colorwheel'></div>
+                <div id='brush-picker'>
+                    <div class='brush-thumb' id='pencilPoint'><p>Pencil</p></div>
+                </div>
+                <div id='brush-options'>
+                    <div class='brush-option'>
+                        <p class='option-header'>Brush Size</p>
+                        <div class='slider' id='brushSizer'></div>
+                        <p class='slider-val' id='brushSize'></p>
+                    </div>
+                    <div class='brush-option'>
+                        <p class='option-header'>Brush Opacity</p>
+                        <div class='slider' id='brushOpacityer'></div>
+                        <p class='slider-val' id='brushOpacity'></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id='canvas-wrap'><canvas id='canvas'></canvas></div>
+            <img width=0 height=0 id='canvas-img'></img>
+
         </div>
 
         <div id='footer'>

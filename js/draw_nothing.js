@@ -11,11 +11,11 @@ $(document).ready(function (){
         windowHeight *= .665;
     }
 
-    var minDesktop = 800;
+    var minDesktop = 960;
     var minMobile= 320;
 
     var DESKTOP = windowWidth > minDesktop;
-    var MOBILE = (windowWidth > minMobile && !DESKTOP) || windowHeight < minDesktop;
+    var MOBILE = (windowWidth > minMobile && !DESKTOP) || windowWidth < minDesktop;
 
     var HEADER = 0;
     if (MOBILE)
@@ -52,69 +52,41 @@ $(document).ready(function (){
             initCanvas();
             initColorPicker();
             initMenu();
-            initLeftPanel();
+            initSizeSlider($('#brushSize'), $('#brushSizer'));
+            initOpacitySlider($('#brushOpacity'), $('#brushOpacityer'));
             initMenuButton($('#color-picker-button'), $('#color-picker-menu'));
             initMenuButton($('#brush-picker-button'), $('#brush-picker-menu'));
             initMenuButton($('#brush-options-button'), $('#brush-options-menu'));
             initImgLoader();
             swapBrush(brush);
+            adjustWindow();
+
+            window.onresize = adjustWindow;
 
             // Don't show until rendered.
             $(document.body).css('visibility', 'visible');
         };
 
 
-        function initCanvas() {
-            var leftPadding = PANEL_WIDTH;
-            var canvasWidth, canvasHeight, canvasPadding= 30;
+        function adjustWindow() {
+            windowWidth = $(window).width();
+            windowHeight = $(window).height();
+            canvas.css('margin-left', 225 + (windowWidth - canvas.width() - 225) / 2);
+        }
 
-            if (windowWidth - PANEL_WIDTH > windowHeight) {
-                var aspect = 4 / 3;
-            } else {
-                var aspect = 3 / 4;
-            }
+
+        function initCanvas() {
             canvas = $('#canvas');
             ctx = canvas.get(0).getContext('2d');
-
-            // If mobile, fit canvas width to screen.
-            if (MOBILE) {
-                canvasPadding = 0;
-                canvasWidth = windowWidth;
-                canvasHeight = windowHeight - HEADER;
-                $('#mobile-header').css('display', 'block');
-            }
-            // If desktop, fit canvas according to canvasPaddingAspect.
-            else {
-                // padding + canvas = width; aspect = canvas / padding.
-                canvasWidth = windowWidth - leftPadding;
-                // Readjust canvas if height is too large.
-                canvasHeight = canvasWidth / aspect;
-                if (canvasHeight > windowHeight) {
-                    canvasHeight = windowHeight;
-                    canvasWidth = canvasHeight * aspect;
-                    // Make up for difference in shrunken width.
-                    leftPadding += (windowWidth - PANEL_WIDTH - canvasWidth) / 2;
-                }
-            }
-
-            ctx.canvas.width = canvasWidth - canvasPadding;
-            ctx.canvas.height = canvasHeight - canvasPadding - FOOTER;
-
-            var paddingWidth = leftPadding + canvasPadding / 2;
-            var paddingHeight = (windowHeight - ctx.canvas.height - FOOTER - canvasPadding / 2) / 2 + 5;
-            if (MOBILE) {
-                paddingWidth= 0;
-                paddingHeight = HEADER;
-            }
-
-            canvas.css('margin-left', paddingWidth + 'px');
-            canvas.css('background', 'rgb(255,255,255)');
-            canvas.css('margin-top', paddingHeight + 'px');
+            ctx.canvas.width = canvas.width();
+            ctx.canvas.height = canvas.height();
 
             // Give canvas an img link.
             var dataURL = canvas.get(0).toDataURL();
             $('#canvas-img').attr('src', dataURL);
         }
+
+
 
 
         function initMenu() {
@@ -142,41 +114,6 @@ $(document).ready(function (){
             // Hide menu until called upon.
             menu.hide()
             menu.css('visibility', 'visible');
-        }
-
-
-        function initLeftPanel() {
-            var leftPanel = $('#left-panel');
-            if (MOBILE) {
-                leftPanel.hide();
-                return;
-            }
-
-            leftPanel.css('width', PANEL_WIDTH + 'px');
-            var panelHeight = leftPanel.height() - FOOTER
-            leftPanel.css('height', panelHeight + 'px');
-
-            // Color selector.
-            var colorPicker = $('#colorwheel');
-            colorPicker.css('marginLeft', (PANEL_WIDTH - colorPicker.outerWidth()) / 2);
-
-            // Brush selector.
-            var brushPicker = $('#brush-picker');
-            var pickerWidth = PANEL_WIDTH * .80;
-            brushPicker.css('width', pickerWidth);
-            brushPicker.css('height', panelHeight / 3);
-            brushPicker.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
-
-            // Brush options widget toolbar.
-            var brushOptions = $('#brush-options');
-            var optionsWidth = PANEL_WIDTH * .80;
-            brushOptions.css('width', optionsWidth);
-            brushOptions.css('height', panelHeight / 4);
-            brushOptions.css('marginLeft', (PANEL_WIDTH - pickerWidth) / 2);
-
-            initSizeSlider($('#brushSize'), $('#brushSizer'));
-            initOpacitySlider($('#brushOpacity'), $('#brushOpacityer'));
-            leftPanel.css('visibility', 'visible');
         }
 
 
