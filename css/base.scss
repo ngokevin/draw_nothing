@@ -1,0 +1,165 @@
+@import "globals.scss";
+
+body {
+    background: rgb(190,190,190);
+    overflow: hidden;
+    visibility: hidden;
+}
+
+#mobile-header {
+    @include gradient($dark-gray, darken($dark-gray, 5%));
+    background: $dark-gray;
+    color: $light-gray;
+    display: none;
+    font-weight: bold;
+    height: 25px;
+    left: 0;
+    padding-top: 5px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+#canvas-wrap {
+    overflow: auto;
+}
+#canvas {
+    background: white;
+}
+
+#menu {
+    @include gradient($dark-gray, darken($dark-gray, 5%));
+    background: $dark-gray;
+    box-shadow: 0px 0px 3 $black;
+    border-radius: 15px;
+    height: 99%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    width: 99%;
+    z-index: 1000;
+    hr {
+        color: $black;
+    }
+}
+.menu-item h3, #left-panel h3 {
+    color: white;
+    text-align: center;
+    margin-top: 1em;
+}
+
+#left-panel {
+    @include gradient($dark-gray, darken($dark-gray, 5%));
+    background: $dark-gray;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+}
+
+#colorwheel, #colorwheel-menu {
+    margin-top: 1em;
+}
+
+.panel-menu {
+    @include gradient($medium-gray, darken($medium-gray, 5%));
+    box-shadow: 0px 0px 3 $black;
+    border-radius: 3px;
+    float: left;
+}
+
+#brush-picker {
+    margin-top: 25px;
+}
+
+.brush-thumb {
+    background: $white;
+    border-radius: 5;
+    height: 64px;
+    margin: 12px;
+    position: absolute;
+    width: 64px;
+    &:hover {
+        background: $white;
+        cursor: pointer;
+    }
+    p {
+        font-size: .75em;
+        line-height: 64px;
+        text-align: center;
+    }
+}
+
+#brush-options {
+    color: $white;
+    margin-top: 1em;
+    .brush-option {
+        margin-top: 1em;
+    }
+
+}
+.brush-option-menu {
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+.option-header, .option-header-menu {
+    font-size: .75em;
+    position: relative;
+    margin-left: 15px;
+    top: 1em;
+}
+.option-header-menu {
+    color: $white;
+    font-weight: bold;
+}
+
+.slider {
+    margin-left: 15px;
+    top: 1em;
+    width: 70%;
+}
+.slider-val {
+    margin-right: 15px;
+    float: right;
+}
+.slider-val-menu {
+    color: $white;
+}
+
+#footer {
+    @include gradient($dark-gray, darken($dark-gray, 5%));
+    background: $dark-gray;
+    color: $light-gray;
+    text-align: center;
+}
+#footer-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 960px;
+    position: relative;
+    padding-top: 15px;
+}
+.footer-button {
+    padding: 17px 25px 10px 25px;
+    border-left: 1px double rgb(10,10,10);
+    border-right: 1px double rgb(10,10,10);
+    &:hover {
+        @include gradient(rgb(65, 65, 65), rgb(40, 40, 40));
+        background: rgb(50, 50, 50);
+    }
+    &:active {
+        background: rgb(20, 20, 20);
+        @include gradient(rgb(30, 30, 30), rgb(15, 15, 15));
+    }
+}
+.footer-icon {
+    font-size: 21px;
+}
+
+#color-button {
+    color: rgb(230, 0, 0);
+}

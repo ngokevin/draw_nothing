@@ -1,0 +1,13 @@
+$black: rgb(10, 10, 10);
+$dark-gray: rgb(45, 45, 45);
+$medium-gray: rgb(120, 120, 120);
+$light-gray: rgb(200,200,200);
+$white: rgb(240, 240, 240);
+
+@mixin gradient($color1, $color2) {
+    background-image: -moz-linear-gradient(top, $color1, $color2);
+    background-image: -webkit-linear-gradient(top, $color1, $color2);
+    background-image: -ms-linear-gradient(top, $color1, $color2);
+    background-image: -o-linear-gradient(top, $color1, $color2);
+    background-image: linear-gradient(top, $color1, $color2);
+}
