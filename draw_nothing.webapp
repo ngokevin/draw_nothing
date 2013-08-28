@@ -1,5 +1,5 @@
 {
-  "version": "2.1",
+  "version": "2.3",
   "name": "Draw Nothing",
   "description": "Less-than-basic doodle application that allows you to draw almost nothing!",
   "launch_path": "/",
@@ -15,6 +15,7 @@
   },
   "appcache_path": "/.cache.manifest",
   "installs_allowed_from": [
+    "https://marketplace.mozilla.org",
     "https://marketplace.firefox.com"
   ],
   "locales": {
